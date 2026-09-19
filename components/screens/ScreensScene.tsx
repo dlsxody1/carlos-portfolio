@@ -5,11 +5,12 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { Float, Image as DreiImage, RoundedBox } from '@react-three/drei'
 import { easing } from 'maath'
 import type { Group } from 'three'
-import type { Project } from '@/content/resume'
+
+export type Shot = { slug: string; shot: string; aspect: number }
 
 const WIDTH = 3.1 // 가로 기준 패널 폭(월드 단위)
 
-function Panel({ project, index, progressRef }: { project: Project; index: number; progressRef: RefObject<number> }) {
+function Panel({ project, index, progressRef }: { project: Shot; index: number; progressRef: RefObject<number> }) {
   const ref = useRef<Group>(null!)
   const w = project.aspect >= 1 ? WIDTH : WIDTH * 0.62
   const h = w / project.aspect
@@ -40,10 +41,12 @@ function Panel({ project, index, progressRef }: { project: Project; index: numbe
  * 스크롤 진행도를 scroll 리스너 대신 렌더 루프에서 읽는다.
  * 화면 중앙이 몇 번째 [data-block] 의 어디쯤인지 → 0 … n-1 연속값 (React state 아님 → 리렌더 없음)
  */
-function ScrollProgress({ container, progressRef }: { container: RefObject<HTMLDivElement | null>; progressRef: RefObject<number> }) {
+function ScrollProgress({ progressRef }: { progressRef: RefObject<number> }) {
+  const blocksRef = useRef<NodeListOf<HTMLElement> | null>(null)
   useFrame(() => {
-    const blocks = container.current?.querySelectorAll<HTMLElement>('[data-block]')
-    if (!blocks?.length) return
+    blocksRef.current ??= document.querySelectorAll<HTMLElement>('#story [data-block]')
+    const blocks = blocksRef.current
+    if (!blocks.length) return
     const mid = window.innerHeight / 2
     let p = 0
     blocks.forEach((el, i) => {
@@ -55,7 +58,7 @@ function ScrollProgress({ container, progressRef }: { container: RefObject<HTMLD
   return null
 }
 
-export default function ScreensScene({ projects, container }: { projects: Project[]; container: RefObject<HTMLDivElement | null> }) {
+export default function ScreensScene({ shots }: { shots: Shot[] }) {
   const wrap = useRef<HTMLDivElement>(null)
   const progress = useRef(0)
   const [visible, setVisible] = useState(false)
@@ -77,9 +80,9 @@ export default function ScreensScene({ projects, container }: { projects: Projec
       >
         <ambientLight intensity={1.4} />
         <directionalLight position={[3, 4, 5]} intensity={2} />
-        <ScrollProgress container={container} progressRef={progress} />
+        <ScrollProgress progressRef={progress} />
         <Suspense fallback={null}>
-          {projects.map((p, i) => (
+          {shots.map((p, i) => (
             <Panel key={p.slug} project={p} index={i} progressRef={progress} />
           ))}
         </Suspense>

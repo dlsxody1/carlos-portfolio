@@ -22,7 +22,7 @@ export const profile = {
   role: { ko: '웹 개발자', en: 'Web engineer' } satisfies L,
   headline: {
     ko: '화면에서 서버까지,\nAI와 함께 만듭니다.',
-    en: 'Screens to servers,\nbuilt with AI in the loop.',
+    en: 'Screens to servers,\nbuilt with AI.',
   } satisfies L,
   lede: {
     ko: 'React와 TypeScript를 중심으로 API와 배포까지 다루고, AI가 쓴 코드도 팀의 규칙을 지키도록 개발 환경을 설계합니다.',

@@ -7,14 +7,19 @@ import { AiWorkflow } from '@/components/sections/AiWorkflow'
 import { Stack } from '@/components/sections/Stack'
 import { History } from '@/components/sections/History'
 import { Contact } from '@/components/sections/Contact'
-import { hasLocale } from '@/content/resume'
+import { hasLocale, profile, ui } from '@/content/resume'
 
 export default async function Page({ params }: PageProps<'/[lang]'>) {
   const { lang } = await params
   if (!hasLocale(lang)) notFound()
   return (
     <>
-      <Nav lang={lang} />
+      <Nav
+        lang={lang}
+        name={profile.name[lang]}
+        labels={{ about: ui.nav.about[lang], work: ui.nav.work[lang], ai: ui.nav.ai[lang], contact: ui.nav.contact[lang] }}
+        menuLabel={ui.menu[lang]}
+      />
       <main>
         <Hero lang={lang} />
         <About lang={lang} />

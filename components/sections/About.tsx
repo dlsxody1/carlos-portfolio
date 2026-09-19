@@ -3,7 +3,7 @@ import { about } from '@/content/resume'
 
 export function About({ lang }: { lang: Locale }) {
   return (
-    <section id="about" className="mx-auto max-w-7xl scroll-mt-24 px-5 pt-40 pb-28 sm:px-10 sm:pt-52">
+    <section id="about" className="mx-auto max-w-7xl scroll-mt-24 px-5 pt-32 pb-28 sm:px-10 lg:pt-[calc(30rem-min(30svh,17rem))]">
       <h2 className="font-display text-[clamp(2rem,4.5vw,3.6rem)] leading-tight font-semibold tracking-[-0.03em]">
         {about.title[lang]}
       </h2>

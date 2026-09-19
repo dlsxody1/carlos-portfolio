@@ -1,13 +1,23 @@
 'use client'
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { Locale } from '@/content/resume'
-import { profile, ui } from '@/content/resume'
 
 const SECTIONS = ['about', 'work', 'ai', 'contact'] as const
 type Section = (typeof SECTIONS)[number]
 
-export function Nav({ lang }: { lang: Locale }) {
+/** 클라이언트 번들에 이력서 전체가 실리지 않도록, 필요한 문자열만 서버에서 받는다 */
+export function Nav({
+  lang,
+  name,
+  labels,
+  menuLabel,
+}: {
+  lang: Locale
+  name: string
+  labels: Record<Section, string>
+  menuLabel: string
+}) {
   const [active, setActive] = useState<Section | null>(null)
   const [hovered, setHovered] = useState<Section | null>(null)
   const [scrolled, setScrolled] = useState(false)
@@ -38,7 +48,8 @@ export function Nav({ lang }: { lang: Locale }) {
 
   // 하이라이트 알약은 호버 중인 링크, 없으면 현재 섹션을 따라 미끄러진다
   const target = hovered ?? active
-  useEffect(() => {
+  // DOM 측정이라 페인트 전에 (useLayoutEffect) — 알약이 한 프레임 늦게 따라오지 않게
+  useLayoutEffect(() => {
     const el = target && listRef.current?.querySelector<HTMLElement>(`[data-id="${target}"]`)
     setPill(el ? { x: el.offsetLeft, w: el.offsetWidth } : null)
   }, [target, lang])
@@ -53,7 +64,7 @@ export function Nav({ lang }: { lang: Locale }) {
       >
         <div className="flex h-14 items-center gap-2 pr-2 pl-5">
           <a href="#top" className="mr-auto font-display text-[0.95rem] font-semibold tracking-tight whitespace-nowrap">
-            {profile.name[lang]}
+            {name}
           </a>
 
           <ul ref={listRef} className="relative hidden items-center sm:flex" onMouseLeave={() => setHovered(null)}>
@@ -71,7 +82,7 @@ export function Nav({ lang }: { lang: Locale }) {
                   aria-current={active === id ? 'true' : undefined}
                   className="relative block rounded-full px-3.5 py-1.5 text-sm text-ink-soft transition-colors hover:text-ink aria-[current]:text-ink"
                 >
-                  {ui.nav[id][lang]}
+                  {labels[id]}
                 </a>
               </li>
             ))}
@@ -103,7 +114,7 @@ export function Nav({ lang }: { lang: Locale }) {
             onClick={() => setOpen((v) => !v)}
             className="relative ml-1 size-9 rounded-full bg-ink/[0.07] sm:hidden"
           >
-            <span className="sr-only">{ui.menu[lang]}</span>
+            <span className="sr-only">{menuLabel}</span>
             <span aria-hidden className={`absolute top-1/2 left-1/2 h-px w-4 -translate-x-1/2 bg-ink transition-transform duration-300 ${open ? 'rotate-45' : '-translate-y-[3px]'}`} />
             <span aria-hidden className={`absolute top-1/2 left-1/2 h-px w-4 -translate-x-1/2 bg-ink transition-transform duration-300 ${open ? '-rotate-45' : 'translate-y-[3px]'}`} />
           </button>
@@ -120,7 +131,7 @@ export function Nav({ lang }: { lang: Locale }) {
                   tabIndex={open ? 0 : -1}
                   className="block px-5 py-3 font-display text-2xl font-semibold tracking-tight"
                 >
-                  {ui.nav[id][lang]}
+                  {labels[id]}
                 </a>
               </li>
             ))}

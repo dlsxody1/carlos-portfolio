@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* 3D·셰이더를 돌리는 환경. JS 분기 대신 CSS 로 나눠야 SSR 때부터 레이아웃이 확정된다(CLS 방지) */
+@custom-variant rich (@media (min-width: 1024px) and (prefers-reduced-motion: no-preference));
+
 @theme {
   --color-paper: oklch(97.6% 0.009 75);
   --color-paper-deep: oklch(93.5% 0.016 70);
@@ -64,31 +67,69 @@ html {
   }
 }
 
-/* HeroPeek: 평소엔 살짝 겹쳐 있다가 호버·포커스 시 부채꼴로 펼쳐진다 */
+/* HeroPeek
+   --spread: 부채꼴 벌어짐(0.5 겹침 → 1 펼침), rotate x: 누움(62deg) → 일어섬
+   기본값은 '살짝 누운' 정지 상태. 모션 허용 시 로드 때 일어서고, 스크롤하면 끝까지 선다 */
+@property --spread {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0.5;
+}
+.peek-stack {
+  rotate: x 40deg;
+  transition: translate 0.7s var(--ease-out-expo);
+}
 .peek-card {
-  transform: translateX(calc(var(--x) * 0.55)) translateZ(var(--z)) rotateZ(calc(var(--r) * 0.6));
+  transform: translateX(calc(var(--x) * var(--spread))) translateZ(var(--z)) rotateZ(calc(var(--r) * var(--spread)));
 }
-.group:hover .peek-card,
-.group:focus-visible .peek-card {
-  transform: translateX(var(--x)) translateZ(var(--z)) rotateZ(var(--r));
+.peek:hover .peek-stack,
+.peek:focus-visible .peek-stack {
+  translate: -50% -18px;
 }
+.peek:focus-visible .peek-card {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  .peek-card {
-    animation: rise 1.2s 0.35s var(--ease-out-expo) both;
+  .peek {
+    animation: peek-in 1.4s 0.3s var(--ease-out-expo) both;
+  }
+  @supports (animation-timeline: scroll()) {
+    .peek-stack {
+      animation: peek-stand linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 75svh;
+    }
+  }
+  /* scroll-driven 미지원 브라우저: 호버로 일어서기 */
+  @supports not (animation-timeline: scroll()) {
+    .peek-stack {
+      transition:
+        rotate 0.8s var(--ease-out-expo),
+        --spread 0.8s var(--ease-out-expo),
+        translate 0.7s var(--ease-out-expo);
+    }
+    .peek:hover .peek-stack {
+      rotate: x 12deg;
+      --spread: 1;
+    }
   }
 }
 
-.nav-progress {
-  transform: scaleX(0);
-}
-@supports (animation-timeline: scroll()) {
-  .nav-progress {
-    animation: nav-progress linear both;
-    animation-timeline: scroll(root);
+@keyframes peek-in {
+  from {
+    opacity: 0;
+    translate: 0 40%;
   }
 }
-@keyframes nav-progress {
+@keyframes peek-stand {
+  from {
+    rotate: x 40deg;
+    --spread: 0.5;
+  }
   to {
-    transform: scaleX(1);
+    rotate: x 6deg;
+    --spread: 1;
   }
 }

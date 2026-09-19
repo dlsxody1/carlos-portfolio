@@ -4,6 +4,7 @@ import { EnvelopeSimple } from '@phosphor-icons/react/dist/ssr'
 import { siGithub, siVelog } from 'simple-icons'
 import { BrandIcon } from '@/components/glass/BrandIcon'
 import { GlassLink } from '@/components/glass/GlassLink'
+import { ContactParticles } from './particles/ContactParticles'
 
 export function Contact({ lang }: { lang: Locale }) {
   return (
@@ -16,7 +17,11 @@ export function Contact({ lang }: { lang: Locale }) {
           'radial-gradient(ellipse at 80% 110%, #d7663a 0%, transparent 60%), radial-gradient(ellipse at 0% 0%, #4f3b6b 0%, transparent 55%), #1a2230',
       }}
     >
-      <div className="mx-auto max-w-7xl px-5 pt-32 pb-12 sm:px-10 sm:pt-44">
+      {/* 입자는 글래스 버튼 뒤가 아닌 오른쪽에 둔다 (liquid-glass 스냅샷은 캔버스를 굴절시키지 못함) */}
+      <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[55%] rich:block">
+        <ContactParticles />
+      </div>
+      <div className="relative mx-auto max-w-7xl px-5 pt-32 pb-12 sm:px-10 sm:pt-44">
         <h2 className="font-display text-[clamp(2.4rem,6vw,5rem)] leading-[1.05] font-semibold tracking-[-0.035em] whitespace-pre-line">
           {ui.contactTitle[lang]}
         </h2>
