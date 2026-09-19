@@ -86,8 +86,8 @@ export const projects: Project[] = [
     kind: { ko: '동물병원 임상 SaaS', en: 'Veterinary clinical SaaS' },
     company: 'MetaDx',
     period: '2026.01 - 2026.07',
-    shot: '/shots/vitalvet.svg',
-    aspect: 16 / 10,
+    shot: '/shots/vitalvet.webp',
+    aspect: 1280 / 681,
     points: [
       {
         title: { ko: '입원 차트 재렌더 범위 축소', en: 'Narrowed inpatient-chart re-renders' },
