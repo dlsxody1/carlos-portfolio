@@ -39,8 +39,8 @@ export const about = {
   title: { ko: '일하는 방식', en: 'How I work' } satisfies L,
   intro: [
     {
-      ko: '2년 3개월 동안 동물병원 임상 SaaS, 사내 전자결재 시스템, 기업 홈페이지를 만들었습니다. 화면은 React와 TypeScript로 만들지만, 문제가 서버나 배포에 있으면 그쪽도 직접 봅니다. FastAPI로 리포트 파이프라인을 붙였고, Spring Boot로 CRUD API와 테이블을 설계했고, GitHub Actions와 S3로 배포를 자동화했습니다.',
-      en: 'For 2 years and 3 months I have built a veterinary clinical SaaS, an internal e-approval system and a corporate website. I build the screens in React and TypeScript, but when the problem lives in the server or the deploy, I go there too. I have wired a report pipeline in FastAPI, designed CRUD APIs and tables in Spring Boot, and automated deploys with GitHub Actions and S3.',
+      ko: '2년 3개월 동안 동물병원 임상 SaaS, 사내 전자결재 시스템, 기업 홈페이지를 만들었습니다. 화면은 React와 TypeScript로 만들지만, 문제가 서버나 배포에 있으면 그쪽도 직접 봅니다. FastAPI로 리포트 파이프라인을 붙였고, Spring Boot로 CRUD API와 테이블을 설계했고, GitHub Actions로 S3와 Azure Blob 배포를 자동화했습니다.',
+      en: 'For 2 years and 3 months I have built a veterinary clinical SaaS, an internal e-approval system and a corporate website. I build the screens in React and TypeScript, but when the problem lives in the server or the deploy, I go there too. I have wired a report pipeline in FastAPI, designed CRUD APIs and tables in Spring Boot, and automated deploys to S3 and Azure Blob with GitHub Actions.',
     },
     {
       ko: '요즘은 Claude Code와 MCP를 개발 과정 전반에 씁니다. 대신 AI가 빠르게 만든 코드가 팀의 구조를 무너뜨리지 않도록, 규칙을 문서로만 두지 않고 도구로 강제하는 데 더 많은 시간을 들입니다.',
@@ -72,8 +72,8 @@ export const about = {
     {
       title: { ko: '문제가 있는 곳까지 갑니다', en: 'Go where the problem is' },
       body: {
-        ko: '검색 노출 문제는 prerender와 S3 자동 업로드로, PDF 한글 폰트 문제는 컨테이너에 웹폰트를 포함해서 풀었습니다. 원인이 프론트엔드 밖에 있어도 직접 확인합니다.',
-        en: 'SEO was fixed with prerendering and automated S3 uploads; broken Korean fonts in PDFs were fixed inside the container. If the cause sits outside the frontend, I still go and look.',
+        ko: 'SPA의 검색 노출은 빌드 뒤 라우트별 메타 HTML을 만들어 보완했고, PDF 한글 폰트 문제는 폰트를 레포에 넣고 Base64로 인라인해 풀었습니다. 원인이 프론트엔드 밖에 있어도 직접 확인합니다.',
+        en: 'SPA search visibility got per-route meta HTML generated at build time; broken Korean fonts in PDFs were fixed by bundling the fonts and inlining them as Base64. If the cause sits outside the frontend, I still go and look.',
       },
     },
   ],
@@ -83,42 +83,42 @@ export const projects: Project[] = [
   {
     slug: 'vitalvet',
     name: 'VitalVET',
-    kind: { ko: '동물병원 임상 SaaS', en: 'Veterinary clinical SaaS' },
+    kind: { ko: '동물병원 임상 SaaS, 프론트엔드 전담', en: 'Veterinary clinical SaaS, frontend owner' },
     company: 'MetaDx',
-    period: '2026.01 - 2026.07',
+    period: '2026.02 -',
     shot: '/shots/vitalvet.webp',
     aspect: 1280 / 681,
     points: [
       {
         title: { ko: '입원 차트 재렌더 범위 축소', en: 'Narrowed inpatient-chart re-renders' },
         body: {
-          ko: '입원 차트는 셀 하나를 고치면 표 전체가 다시 그려졌습니다. React.memo와 콜백 안정화로 수정된 행 하나만 렌더되게 바꿨습니다.',
-          en: 'Editing one cell used to re-render the whole chart. With React.memo and stable callbacks, only the edited row renders now.',
+          ko: '입원 차트는 셀 하나를 고치면 표 전체가 다시 그려졌습니다. 행·셀 컴포넌트 4개에 React.memo를 적용하고, 콜백은 ref로 안정화하고, 셀 데이터를 행 단위로 나눠 넘겨 수정된 행만 다시 그려지게 했습니다.',
+          en: 'Editing one cell re-rendered the whole chart. React.memo on four row and cell components, ref-stabilised callbacks and per-row data slices mean only the edited row re-renders now.',
         },
       },
       {
         title: { ko: '흩어진 결제 폼 상태 통합', en: 'Unified scattered payment-form state' },
         body: {
-          ko: 'react-hook-form과 zod로 상태·검증 로직을 한곳에 모으고, 결제 이벤트 추적과 단위 테스트를 같은 자리에 뒀습니다.',
-          en: 'Moved state and validation into one place with react-hook-form and zod, with event tracking and unit tests alongside.',
+          ko: 'Jotai atom 7개에 흩어져 있던 결제 폼 입력값을 react-hook-form 하나로 모으고 결제 요청은 훅으로 분리했습니다. 결제 진입·시작·실패·완료 이벤트를 추적하고, 결제 상태 전이와 검증 유틸에 단위 테스트 34개를 붙였습니다.',
+          en: 'Payment inputs spread across 7 Jotai atoms now live in one react-hook-form, with the payment request in its own hook. Entry, start, failure and completion events are tracked, and 34 unit tests cover state transitions and validation utils.',
         },
       },
       {
         title: { ko: '4개 언어와 운영 모니터링', en: '4 languages, production monitoring' },
         body: {
-          ko: 'i18next로 한국어·영어·일본어·태국어를 지원합니다. Sentry로 오류를 추적하고 GitHub Actions 기반 S3 배포를 자동화했습니다.',
-          en: 'Korean, English, Japanese and Thai via i18next; Sentry error tracking and automated S3 deploys on GitHub Actions.',
+          ko: 'i18next로 한국어·영어·일본어·태국어를 지원합니다. Sentry로 오류를 추적하고, GitHub Actions 배포를 S3+CloudFront로 구성했다가 Azure Blob으로 옮겼습니다.',
+          en: 'Korean, English, Japanese and Thai via i18next; Sentry error tracking; GitHub Actions deploys, first to S3 + CloudFront and later moved to Azure Blob.',
         },
       },
     ],
-    stack: ['React', 'TypeScript', 'TanStack Router/Query', 'Jotai', 'react-hook-form', 'zod', 'Sentry'],
+    stack: ['React', 'TypeScript', 'TanStack Router/Query', 'Jotai', 'react-hook-form', 'Storybook', 'Vitest', 'Sentry'],
   },
   {
     slug: 'homepage',
     name: 'MetaDx Homepage',
     kind: { ko: '기업 홈페이지 설계부터 운영까지', en: 'Corporate site, built and run end to end' },
     company: 'MetaDx',
-    period: '2025.08 - 2026.09',
+    period: '2025.08 -',
     shot: '/shots/homepage.webp',
     aspect: 1440 / 900,
     url: 'https://metadxlab.com',
@@ -131,10 +131,10 @@ export const projects: Project[] = [
         },
       },
       {
-        title: { ko: '이미지 로딩 시간 약 30% 감소', en: '~30% faster image loading' },
+        title: { ko: 'LCP 이미지 먼저, 나머지는 나중에', en: 'LCP image first, the rest later' },
         body: {
-          ko: '대표 이미지에는 fetchPriority="high"를, 나머지에는 lazy loading을 적용하고, 대용량 PNG는 sharp로 WebP 변환했습니다.',
-          en: 'fetchPriority="high" on the hero image, lazy loading elsewhere, and heavy PNGs converted to WebP with sharp.',
+          ko: 'LCP 대상인 히어로 이미지에 fetchPriority="high"를 주고 나머지는 loading="lazy"로 미뤘습니다. sharp로 PNG와 JPG를 WebP로 일괄 변환하는 스크립트를 만들어 이미지 용량을 줄였습니다.',
+          en: 'fetchPriority="high" on the LCP hero image, loading="lazy" on the rest, and a sharp script that batch-converts PNG and JPG to WebP.',
         },
       },
       {
@@ -145,14 +145,14 @@ export const projects: Project[] = [
         },
       },
       {
-        title: { ko: 'SPA 검색 노출', en: 'Getting an SPA indexed' },
+        title: { ko: 'SPA의 SEO 보완', en: 'Filling the SEO gap of an SPA' },
         body: {
-          ko: '메타데이터와 hreflang을 적용하고 prerender로 생성한 HTML을 S3에 자동 업로드해 다국어 페이지가 검색에 노출되게 했습니다.',
-          en: 'Added metadata and hreflang, then prerendered HTML and auto-uploaded it to S3 so each language gets indexed.',
+          ko: '빌드 뒤 라우트별 메타데이터(title, OG, canonical, JSON-LD)와 요약 콘텐츠를 담은 정적 HTML을 생성해 함께 배포합니다. 배포는 S3/CloudFront에서 Azure Blob으로 옮겼습니다.',
+          en: 'After each build, per-route static HTML with metadata (title, OG, canonical, JSON-LD) and a content summary ships alongside the SPA. Hosting moved from S3/CloudFront to Azure Blob.',
         },
       },
     ],
-    stack: ['React 19', 'TanStack Router', 'Tailwind CSS v4', 'sharp', 'prerender', 'AWS S3'],
+    stack: ['React 19', 'TanStack Router/Query', 'Tailwind CSS v4', 'Vite', 'sharp', 'GitHub Actions', 'Azure Blob'],
   },
   {
     slug: 'campaign',
@@ -186,7 +186,7 @@ export const projects: Project[] = [
         },
       },
     ],
-    stack: ['React 19', 'TanStack Router', 'Tailwind CSS v4', 'Claude Code', 'prerender'],
+    stack: ['React 19', 'TanStack Router', 'Tailwind CSS v4', 'Claude Code'],
   },
   {
     slug: 'office',
@@ -234,13 +234,13 @@ export const projects: Project[] = [
 export const otherWork: { name: L; kind: L; period: string; body: L; stack: string }[] = [
   {
     name: { ko: 'CancerVET', en: 'CancerVET' },
-    kind: { ko: '진단 리포트 자동 생성 파이프라인', en: 'Automated diagnostic report pipeline' },
-    period: '2025.01 - 2025.05',
+    kind: { ko: '진단 리포트 PDF 생성 파이프라인', en: 'Diagnostic report PDF pipeline' },
+    period: '2025.08 - 2025.09',
     body: {
-      ko: '검사 결과 리포트를 HTML/CSS로 만들고 Playwright로 PDF를 생성했습니다. 로컬과 Linux 컨테이너에서 한글 폰트가 어긋나던 문제는 Pretendard와 NotoSansKR을 웹폰트로 포함해 해결했습니다. Lambda와 S3로 나뉘어 있던 구조를 FastAPI 서버로 통합하는 작업에도 참여했습니다.',
-      en: 'Built the report in HTML/CSS and rendered it to PDF with Playwright. Korean fonts that drifted between local and Linux containers were fixed by bundling Pretendard and NotoSansKR, and I helped merge a split Lambda + S3 setup into one FastAPI server.',
+      ko: '검사 결과 리포트 UI를 HTML/CSS로 만들고, 기존 Playwright 기반 PDF 변환 코드에 RDS 데이터 조회, 데이터 바인딩, S3 업로드를 붙여 리포트 생성 흐름을 완성했습니다. 로컬과 Linux 컨테이너에서 한글 폰트가 어긋나던 문제는 Pretendard와 NotoSansKR을 레포에 넣고 Base64로 인라인했습니다.',
+      en: 'Built the report UI in HTML/CSS and completed the flow around an existing Playwright PDF converter: RDS lookup, data binding and S3 upload. Korean fonts that drifted between local and Linux containers were fixed by bundling Pretendard and NotoSansKR and inlining them as Base64.',
     },
-    stack: 'Python, FastAPI, Playwright, AWS Lambda, S3',
+    stack: 'Python, FastAPI, Playwright, AWS S3, RDS(MySQL)',
   },
   {
     name: { ko: '문서관리 시스템', en: 'Document management system' },
@@ -352,13 +352,13 @@ export const skillGroups: { label: L; rows: { label: L; items: string }[] }[] = 
     rows: [
       { label: { ko: '언어·프레임워크', en: 'Core' }, items: 'TypeScript, React 19, Next.js, Tailwind CSS, shadcn/ui' },
       { label: { ko: '상태와 폼', en: 'State & forms' }, items: 'TanStack Query/Router, Jotai, react-hook-form, zod' },
-      { label: { ko: '아키텍처', en: 'Architecture' }, items: 'Feature-Sliced Design, steiger' },
+      { label: { ko: '아키텍처', en: 'Architecture' }, items: 'Feature-Sliced Design, Claude Code hooks' },
     ],
   },
   {
     label: { ko: '품질과 AI', en: 'Quality & AI' },
     rows: [
-      { label: { ko: '테스트', en: 'Testing' }, items: 'Vitest, Testing Library, tsc, ESLint' },
+      { label: { ko: '테스트', en: 'Testing' }, items: 'Vitest, Testing Library, Storybook, tsc, ESLint, husky' },
       { label: { ko: 'AI 개발 환경', en: 'AI tooling' }, items: 'Claude Code, MCP, CLAUDE.md, lint hooks, sub-agents' },
     ],
   },
@@ -366,7 +366,7 @@ export const skillGroups: { label: L; rows: { label: L; items: string }[] }[] = 
     label: { ko: '서버와 운영', en: 'Server & ops' },
     rows: [
       { label: { ko: '백엔드', en: 'Backend' }, items: 'Python, FastAPI, Spring Boot, JSP, MariaDB' },
-      { label: { ko: '인프라', en: 'Infra' }, items: 'GitHub Actions, AWS S3, Lambda, Sentry, i18next' },
+      { label: { ko: '인프라', en: 'Infra' }, items: 'GitHub Actions, AWS S3·CloudFront, Azure Blob, PWA, Sentry, i18next' },
     ],
   },
 ]
