@@ -9,14 +9,14 @@ import type { Project } from '@/content/resume'
 
 const WIDTH = 3.1 // 가로 기준 패널 폭(월드 단위)
 
-function Panel({ project, index, progress }: { project: Project; index: number; progress: RefObject<number> }) {
+function Panel({ project, index, progressRef }: { project: Project; index: number; progressRef: RefObject<number> }) {
   const ref = useRef<Group>(null!)
   const w = project.aspect >= 1 ? WIDTH : WIDTH * 0.62
   const h = w / project.aspect
 
   useFrame((_, dt) => {
     // d = 0 이면 정면. 다음 화면은 아래·뒤에서 기울어진 채 올라오고, 지난 화면은 위·뒤로 빠진다
-    const d = index - progress.current
+    const d = index - progressRef.current
     const ad = Math.abs(d)
     easing.damp3(ref.current.position, [d * 0.6, -d * 3.1, -ad * 3], 0.25, dt)
     easing.dampE(ref.current.rotation, [0.45 * Math.max(-1, Math.min(1, d)), -0.3 * d, 0.04 * d], 0.25, dt)
@@ -36,8 +36,28 @@ function Panel({ project, index, progress }: { project: Project; index: number; 
   )
 }
 
-export default function ScreensScene({ projects, progress }: { projects: Project[]; progress: RefObject<number> }) {
+/**
+ * 스크롤 진행도를 scroll 리스너 대신 렌더 루프에서 읽는다.
+ * 화면 중앙이 몇 번째 [data-block] 의 어디쯤인지 → 0 … n-1 연속값 (React state 아님 → 리렌더 없음)
+ */
+function ScrollProgress({ container, progressRef }: { container: RefObject<HTMLDivElement | null>; progressRef: RefObject<number> }) {
+  useFrame(() => {
+    const blocks = container.current?.querySelectorAll<HTMLElement>('[data-block]')
+    if (!blocks?.length) return
+    const mid = window.innerHeight / 2
+    let p = 0
+    blocks.forEach((el, i) => {
+      const r = el.getBoundingClientRect()
+      if (r.top <= mid) p = i + Math.min(1, (mid - r.top) / r.height) - 0.5
+    })
+    progressRef.current = Math.max(0, Math.min(blocks.length - 1, p))
+  }, -1)
+  return null
+}
+
+export default function ScreensScene({ projects, container }: { projects: Project[]; container: RefObject<HTMLDivElement | null> }) {
   const wrap = useRef<HTMLDivElement>(null)
+  const progress = useRef(0)
   const [visible, setVisible] = useState(false)
 
   // 화면 밖이면 렌더 루프 정지
@@ -57,9 +77,10 @@ export default function ScreensScene({ projects, progress }: { projects: Project
       >
         <ambientLight intensity={1.4} />
         <directionalLight position={[3, 4, 5]} intensity={2} />
+        <ScrollProgress container={container} progressRef={progress} />
         <Suspense fallback={null}>
           {projects.map((p, i) => (
-            <Panel key={p.slug} project={p} index={i} progress={progress} />
+            <Panel key={p.slug} project={p} index={i} progressRef={progress} />
           ))}
         </Suspense>
       </Canvas>

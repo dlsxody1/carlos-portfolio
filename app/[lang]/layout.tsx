@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: LayoutProps<'/[lang]'>): Prom
   const { lang } = await params
   if (!hasLocale(lang)) return {}
   return {
-    title: `${profile.name[lang]} — ${profile.role[lang]}`,
-    description: profile.summary[lang],
+    title: `${profile.name[lang]}, ${profile.role[lang]}`,
+    description: profile.lede[lang],
     alternates: { languages: { ko: '/ko', en: '/en' } },
   }
 }

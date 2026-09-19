@@ -63,3 +63,32 @@ html {
     opacity: 0;
   }
 }
+
+/* HeroPeek: 평소엔 살짝 겹쳐 있다가 호버·포커스 시 부채꼴로 펼쳐진다 */
+.peek-card {
+  transform: translateX(calc(var(--x) * 0.55)) translateZ(var(--z)) rotateZ(calc(var(--r) * 0.6));
+}
+.group:hover .peek-card,
+.group:focus-visible .peek-card {
+  transform: translateX(var(--x)) translateZ(var(--z)) rotateZ(var(--r));
+}
+@media (prefers-reduced-motion: no-preference) {
+  .peek-card {
+    animation: rise 1.2s 0.35s var(--ease-out-expo) both;
+  }
+}
+
+.nav-progress {
+  transform: scaleX(0);
+}
+@supports (animation-timeline: scroll()) {
+  .nav-progress {
+    animation: nav-progress linear both;
+    animation-timeline: scroll(root);
+  }
+}
+@keyframes nav-progress {
+  to {
+    transform: scaleX(1);
+  }
+}

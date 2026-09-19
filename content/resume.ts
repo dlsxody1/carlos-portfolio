@@ -18,19 +18,63 @@ export type Project = {
 }
 
 export const profile = {
-  name: { ko: '김인태', en: 'Intae Kim' } satisfies L,
-  role: { ko: '프론트엔드 개발자', en: 'Frontend Engineer' } satisfies L,
+  name: { ko: '김인태', en: 'In Tae Kim' } satisfies L,
+  role: { ko: '웹 개발자', en: 'Web engineer' } satisfies L,
   headline: {
-    ko: '운영에서 덜 깨지는\n화면을 만듭니다.',
-    en: 'I build B2B screens\nthat hold up in production.',
+    ko: '화면에서 서버까지,\nAI와 함께 만듭니다.',
+    en: 'Screens to servers,\nbuilt with AI in the loop.',
   } satisfies L,
-  summary: {
-    ko: '2년 3개월 동안 동물병원 임상 SaaS, 사내 전자결재 시스템, 기업 홈페이지를 개발했습니다. React와 TypeScript를 주로 쓰고, 필요할 땐 백엔드 API와 배포 환경까지 직접 다룹니다.',
-    en: 'For 2+ years I have built a veterinary clinical SaaS, an internal e-approval system, and a corporate website. Mostly React and TypeScript — and backend APIs or deployment when the problem needs it.',
+  lede: {
+    ko: 'React와 TypeScript를 중심으로 API와 배포까지 다루고, AI가 쓴 코드도 팀의 규칙을 지키도록 개발 환경을 설계합니다.',
+    en: 'I work across React, TypeScript, APIs and deployment, and I design the tooling that keeps AI-written code inside the team’s rules.',
   } satisfies L,
   email: 'dlsxody1@naver.com',
   github: 'https://github.com/dlsxody1',
   velog: 'https://velog.io/@carloskim',
+}
+
+export const about = {
+  title: { ko: '일하는 방식', en: 'How I work' } satisfies L,
+  intro: [
+    {
+      ko: '2년 3개월 동안 동물병원 임상 SaaS, 사내 전자결재 시스템, 기업 홈페이지를 만들었습니다. 화면은 React와 TypeScript로 만들지만, 문제가 서버나 배포에 있으면 그쪽도 직접 봅니다. FastAPI로 리포트 파이프라인을 붙였고, Spring Boot로 CRUD API와 테이블을 설계했고, GitHub Actions와 S3로 배포를 자동화했습니다.',
+      en: 'For 2 years and 3 months I have built a veterinary clinical SaaS, an internal e-approval system and a corporate website. I build the screens in React and TypeScript, but when the problem lives in the server or the deploy, I go there too. I have wired a report pipeline in FastAPI, designed CRUD APIs and tables in Spring Boot, and automated deploys with GitHub Actions and S3.',
+    },
+    {
+      ko: '요즘은 Claude Code와 MCP를 개발 과정 전반에 씁니다. 대신 AI가 빠르게 만든 코드가 팀의 구조를 무너뜨리지 않도록, 규칙을 문서로만 두지 않고 도구로 강제하는 데 더 많은 시간을 씁니다.',
+      en: 'These days I use Claude Code and MCP across the whole workflow. The part I spend more time on is making sure fast AI output does not erode the codebase: rules are enforced by tools, not just written down.',
+    },
+  ] satisfies L[],
+  principles: [
+    {
+      title: { ko: '쓰는 사람의 속도에 맞춥니다', en: 'Match the pace of the person using it' },
+      body: {
+        ko: 'VitalVET 입원 차트는 수의사가 진료 중에 셀을 계속 고쳐 쓰는 화면입니다. 이런 화면에서는 입력 반응성이 곧 사용성이라, 기능 목록보다 한 번의 입력이 얼마나 빨리 반영되는지를 먼저 봅니다.',
+        en: 'The VitalVET inpatient chart is edited cell by cell while a vet is treating an animal. There, input latency is the usability, so I look at how fast one edit lands before I look at the feature list.',
+      },
+    },
+    {
+      title: { ko: '운영에서 덜 깨지게 만듭니다', en: 'Build for the day after release' },
+      body: {
+        ko: '기능을 만드는 것만큼, 배포 뒤에 생기는 성능·유지보수 문제를 줄이는 데 관심이 많습니다. 틀리면 결재 전체가 멈추는 로직부터 테스트로 묶고, 타입·린트·빌드는 CI가 배포 전에 확인하게 합니다.',
+        en: 'I care as much about what breaks after release as about shipping the feature. Logic that stops every approval when wrong gets tests first, and CI checks types, lint and build before anything deploys.',
+      },
+    },
+    {
+      title: { ko: '규칙은 문서보다 도구로', en: 'Rules live in tools, not docs' },
+      body: {
+        ko: '사람이든 AI든 문서를 매번 읽지는 않습니다. 반드시 지켜야 하는 규칙은 린트와 훅으로 만들어서, 어긴 순간 바로 알 수 있게 합니다.',
+        en: 'Neither people nor AI re-read the docs every time. Rules that must hold become lint rules and hooks, so a violation surfaces the moment it happens.',
+      },
+    },
+    {
+      title: { ko: '문제가 있는 곳까지 갑니다', en: 'Go where the problem is' },
+      body: {
+        ko: '검색 노출 문제는 prerender와 S3 자동 업로드로, PDF 한글 폰트 문제는 컨테이너에 웹폰트를 포함해서 풀었습니다. 원인이 프론트엔드 밖에 있어도 직접 확인합니다.',
+        en: 'SEO was fixed with prerendering and automated S3 uploads; broken Korean fonts in PDFs were fixed inside the container. If the cause sits outside the frontend, I still go and look.',
+      },
+    },
+  ],
 }
 
 export const projects: Project[] = [
@@ -39,7 +83,7 @@ export const projects: Project[] = [
     name: 'VitalVET',
     kind: { ko: '동물병원 임상 SaaS', en: 'Veterinary clinical SaaS' },
     company: 'MetaDx',
-    period: '2026.01 – 2026.07',
+    period: '2026.01 - 2026.07',
     shot: '/shots/vitalvet.svg',
     aspect: 16 / 10,
     points: [
@@ -58,7 +102,7 @@ export const projects: Project[] = [
         },
       },
       {
-        title: { ko: '4개 언어 · 운영 모니터링', en: '4 languages · production monitoring' },
+        title: { ko: '4개 언어와 운영 모니터링', en: '4 languages, production monitoring' },
         body: {
           ko: 'i18next로 한국어·영어·일본어·태국어를 지원하고, Sentry 오류 추적과 GitHub Actions 기반 S3 배포를 자동화했습니다.',
           en: 'Korean, English, Japanese and Thai via i18next; Sentry error tracking and automated S3 deploys on GitHub Actions.',
@@ -70,9 +114,9 @@ export const projects: Project[] = [
   {
     slug: 'homepage',
     name: 'MetaDx Homepage',
-    kind: { ko: '기업 홈페이지 · Core Web Vitals', en: 'Corporate site · Core Web Vitals' },
+    kind: { ko: '기업 홈페이지, Core Web Vitals', en: 'Corporate site, Core Web Vitals' },
     company: 'MetaDx',
-    period: '2025.08 – 2026.05',
+    period: '2025.08 - 2026.05',
     shot: '/shots/homepage.svg',
     aspect: 16 / 10,
     points: [
@@ -93,7 +137,7 @@ export const projects: Project[] = [
       {
         title: { ko: 'SPA 검색 노출', en: 'Getting an SPA indexed' },
         body: {
-          ko: '메타데이터·hreflang을 적용하고 prerender로 생성한 HTML을 S3에 자동 업로드해 다국어 페이지를 노출시켰습니다.',
+          ko: '메타데이터와 hreflang을 적용하고 prerender로 생성한 HTML을 S3에 자동 업로드해 다국어 페이지를 노출시켰습니다.',
           en: 'Added metadata and hreflang, then prerendered HTML and auto-uploaded it to S3 so each language gets indexed.',
         },
       },
@@ -103,145 +147,219 @@ export const projects: Project[] = [
   {
     slug: 'office',
     name: 'MetaDx Office',
-    kind: { ko: '사내 전자결재 · 경비 관리', en: 'Internal e-approval & expenses' },
+    kind: { ko: '사내 전자결재와 경비 관리', en: 'Internal e-approval & expenses' },
     company: 'MetaDx',
-    period: '2025.05 – 2026.07',
+    period: '2025.05 - 2026.07',
     shot: '/shots/office.svg',
     aspect: 16 / 10,
     points: [
       {
         title: { ko: '결재 로직 단위 테스트 25개', en: '25 unit tests on approval logic' },
         body: {
-          ko: '결재 상태머신, 401 인터셉터, 인증 가드, 결재선 금액 규칙처럼 오류 시 결재 전체에 영향을 주는 로직을 테스트로 묶었습니다.',
+          ko: '결재 상태머신, 401 인터셉터, 인증 가드, 결재선 금액 규칙처럼 틀리면 결재 전체에 영향을 주는 로직을 테스트로 묶었습니다.',
           en: 'Covered the logic that breaks every approval when wrong: the state machine, 401 interceptor, auth guard and approval-line amount rules.',
         },
       },
       {
         title: { ko: '배포 전 검증 파이프라인', en: 'Pre-deploy checks in CI' },
         body: {
-          ko: 'tsc·린트·빌드를 CI에 넣고, steiger로 FSD 레이어 간 의존 규칙을 검사합니다.',
+          ko: 'tsc, 린트, 빌드를 CI에 넣고 steiger로 FSD 레이어 간 의존 규칙을 검사합니다.',
           en: 'tsc, lint and build run in CI, and steiger enforces FSD layer dependency rules.',
         },
       },
     ],
     stack: ['React 19', 'TypeScript', 'TanStack Router/Query', 'react-hook-form', 'zod', 'Vitest', 'steiger'],
   },
+]
+
+/** 캡쳐가 없는 작업은 3D 스토리 대신 짧은 목록으로 */
+export const otherWork: { name: L; kind: L; period: string; body: L; stack: string }[] = [
   {
-    slug: 'cancervet',
-    name: 'CancerVET',
-    kind: { ko: '진단 리포트 자동 생성', en: 'Automated diagnostic reports' },
-    company: 'MetaDx',
-    period: '2025.01 – 2025.05',
-    shot: '/shots/cancervet.svg',
-    aspect: 1 / 1.3,
-    points: [
-      {
-        title: { ko: 'HTML → PDF 파이프라인', en: 'HTML → PDF pipeline' },
-        body: {
-          ko: '검사 결과 리포트 UI를 HTML/CSS로 만들고 Playwright로 PDF를 생성하는 파이프라인을 개발했습니다.',
-          en: 'Built the report UI in HTML/CSS and a Playwright pipeline that renders it to PDF.',
-        },
-      },
-      {
-        title: { ko: '컨테이너 한글 폰트 불일치 해결', en: 'Fixed Korean fonts in containers' },
-        body: {
-          ko: '로컬과 Linux 컨테이너의 폰트 차이로 PDF가 어긋나던 문제를 Pretendard·NotoSansKR 웹폰트 포함으로 해결했습니다.',
-          en: 'PDFs drifted between local and Linux containers; bundling Pretendard and NotoSansKR as web fonts fixed it.',
-        },
-      },
-    ],
-    stack: ['Python', 'FastAPI', 'Playwright', 'HTML/CSS', 'AWS Lambda', 'S3'],
+    name: { ko: 'CancerVET', en: 'CancerVET' },
+    kind: { ko: '진단 리포트 자동 생성 파이프라인', en: 'Automated diagnostic report pipeline' },
+    period: '2025.01 - 2025.05',
+    body: {
+      ko: '검사 결과 리포트를 HTML/CSS로 만들고 Playwright로 PDF를 생성했습니다. 로컬과 Linux 컨테이너에서 한글 폰트가 어긋나던 문제는 Pretendard와 NotoSansKR을 웹폰트로 포함해 해결했고, Lambda와 S3로 나뉘어 있던 구조를 FastAPI 서버로 통합하는 작업에 참여했습니다.',
+      en: 'Built the report in HTML/CSS and rendered it to PDF with Playwright. Korean fonts that drifted between local and Linux containers were fixed by bundling Pretendard and NotoSansKR, and I helped merge a split Lambda + S3 setup into one FastAPI server.',
+    },
+    stack: 'Python, FastAPI, Playwright, AWS Lambda, S3',
+  },
+  {
+    name: { ko: '문서관리 시스템', en: 'Document management system' },
+    kind: { ko: '퀀텀에이아이, 보험금 청구 서류 자동화', en: 'Quantum AI, insurance-claim paperwork' },
+    period: '2022.11 - 2023.03',
+    body: {
+      ko: 'Spring Boot의 Controller-Service-Repository 구조로 문서 등록·조회·수정 API를 만들고 문서·사용자·청구 이력 테이블을 설계했습니다. 문서에서 추출·요약한 텍스트를 청구 입력값으로 연결해 MariaDB에 적재했습니다.',
+      en: 'Built document CRUD APIs in Spring Boot (controller, service, repository) and designed the document, user and claim-history tables. Text extracted and summarised from documents was mapped into claim fields and stored in MariaDB.',
+    },
+    stack: 'Spring Boot, JSP, jQuery, MariaDB',
   },
 ]
 
-export const aiWorkflow = {
-  title: { ko: 'AI가 쓴 코드도\n규칙을 지키게', en: 'Making AI-written code\nfollow the rules' } satisfies L,
-  items: [
-    {
-      figure: '7',
-      title: { ko: '커밋 전에 막는 구조 위반', en: 'structure violations blocked before commit' },
-      body: {
-        ko: 'AI 코드 생성이 늘며 FSD 경계가 무너지는 문제를, 구조·규칙 문서화와 파일 수정 시 동작하는 커스텀 린트 훅으로 해결했습니다.',
-        en: 'As AI generated more code, FSD boundaries eroded. Documented rules plus custom lint hooks that run on every file edit fixed it.',
-      },
-    },
-    {
-      figure: '9 · 13',
-      title: { ko: '슬래시 커맨드 · 스킬', en: 'slash commands · skills' },
-      body: {
-        ko: '한 프롬프트에 모든 걸 맡기던 방식을 성능 측정·스타일링·UX 리뷰 서브에이전트로 나눴습니다.',
-        en: 'Split one do-everything prompt into sub-agents for performance, styling and UX review.',
-      },
-    },
-    {
-      figure: '5',
-      title: { ko: '같은 작업 정보를 보는 사내 프로젝트', en: 'internal projects sharing one context' },
-      body: {
-        ko: '인프라·백엔드·ML 팀과 매번 수동으로 옮기던 정보를 공유 레포의 컨텍스트·의사결정 로그로 옮겼습니다.',
-        en: 'Moved hand-copied context between infra, backend and ML teams into a shared repo of context and decision logs.',
-      },
-    },
-  ],
+export type AiCase = {
+  id: string
+  title: L
+  problem: L
+  approach: L
+  tradeoff: L
+  rules?: { code: string; ko: string; en: string }[]
+  code?: string
 }
 
-export const skills: { label: L; items: string }[] = [
-  { label: { ko: '프론트엔드', en: 'Frontend' }, items: 'TypeScript, React 19, Next.js, Tailwind CSS, shadcn/ui' },
-  { label: { ko: '아키텍처', en: 'Architecture' }, items: 'Feature-Sliced Design, steiger' },
-  { label: { ko: '상태와 폼', en: 'State & forms' }, items: 'TanStack Query/Router, Jotai, react-hook-form, zod' },
-  { label: { ko: 'AI 개발 환경', en: 'AI tooling' }, items: 'Claude Code, MCP, CLAUDE.md, custom lint hooks, sub-agents' },
-  { label: { ko: '테스트와 품질', en: 'Testing' }, items: 'Vitest, Testing Library, tsc, ESLint' },
-  { label: { ko: '인프라와 운영', en: 'Infra & ops' }, items: 'GitHub Actions, AWS S3/Lambda, Sentry, i18next' },
-  { label: { ko: '백엔드', en: 'Backend' }, items: 'Python, FastAPI, Spring Boot, JSP, MariaDB' },
+export const aiWorkflow = {
+  title: { ko: 'AI가 쓴 코드도\n규칙을 지키게', en: 'Making AI-written code\nfollow the rules' } satisfies L,
+  lede: {
+    ko: 'VitalVET에서 Claude Code로 만드는 코드의 비중이 커지면서 생긴 문제와, 그걸 푼 방식입니다.',
+    en: 'What went wrong as more of VitalVET was written with Claude Code, and how I fixed it.',
+  } satisfies L,
+  cases: [
+    {
+      id: 'hook',
+      title: { ko: '파일을 고치는 순간 검사하는 린트 훅', en: 'A lint hook that runs on every edit' },
+      problem: {
+        ko: 'AI가 만든 코드가 늘면서 FSD 경계가 조금씩 무너졌습니다. entities에서 mutation을 부르거나, 다른 슬라이스의 내부 파일을 직접 import하거나, 공용 Dialog 대신 모달을 새로 만드는 식입니다. 리뷰에서 같은 지적을 반복했고, CLAUDE.md에 적어 둬도 긴 작업 중에는 다시 어겼습니다.',
+        en: 'As AI output grew, FSD boundaries slowly eroded: mutations in entities, deep imports into another slice, hand-rolled modals instead of the shared Dialog. Reviews repeated the same comments, and writing the rules in CLAUDE.md did not survive long sessions.',
+      },
+      approach: {
+        ko: 'Claude Code가 Edit나 Write로 파일을 저장할 때마다 실행되는 PostToolUse 훅(fsd-lint.mjs)을 만들었습니다. 위반을 찾으면 exit 2로 에이전트에게 파일 경로, 줄 번호, 고치는 방법을 돌려보내고, 에이전트는 다음 단계로 넘어가기 전에 그 자리에서 고칩니다.',
+        en: 'I added a PostToolUse hook (fsd-lint.mjs) that runs every time Claude Code saves a file with Edit or Write. On a violation it exits with code 2 and hands the agent the file, line and the fix, so the agent corrects it before moving on.',
+      },
+      tradeoff: {
+        ko: '기존 코드의 위반까지 전부 막으면 작업이 멈춥니다. 그래서 훅은 방금 수정한 파일만 검사하고, 새로 들어온 위반만 고치라고 안내합니다. 남은 위반은 그 파일을 다시 만질 때 조금씩 회수합니다.',
+        en: 'Blocking every legacy violation would halt all work. The hook checks only the file just edited and asks the agent to fix only newly introduced violations; old ones are paid down whenever that file is touched again.',
+      },
+      rules: [
+        { code: 'R1', ko: 'entities에서 useMutation 금지. features/{slice}/model로 이동', en: 'No useMutation in entities; move it to features/{slice}/model' },
+        { code: 'R4', ko: 'API 주소 환경변수 직접 사용 금지. shared/api 클라이언트 경유', en: 'No raw API env var; go through the shared/api client' },
+        { code: 'R5', ko: '종·성별 한글 리터럴 금지. 4개 언어 대응을 위해 API 코드 그대로', en: 'No hard-coded Korean species/sex labels; keep API codes for 4 locales' },
+        { code: 'R6', ko: 'fixed inset-0 커스텀 모달 금지. shared/ui의 Dialog 사용', en: 'No custom fixed inset-0 modals; use the shared Dialog' },
+        { code: 'R7', ko: '다른 슬라이스 깊은 경로 import 금지. Public API 경유', en: 'No deep imports into another slice; use its public API' },
+      ],
+      code: `// .claude/settings.json
+"PostToolUse": [{
+  "matcher": "Edit|Write|MultiEdit",
+  "hooks": [{ "type": "command", "command": "node .claude/hooks/fsd-lint.mjs" }]
+}]
+
+// 위반 시 에이전트가 받는 메시지 예시 (exit 2)
+FSD 룰 위반 1건 (CLAUDE.md 참고):
+  [R7] src/features/payment/ui/PayForm.tsx:4
+  깊은 경로 import 금지: @/entities/pet/model/types
+  슬라이스 Public API 경유: from "@/entities/pet"`,
+    },
+    {
+      id: 'agents',
+      title: { ko: '한 프롬프트 대신 역할별 에이전트', en: 'Role-based agents instead of one prompt' },
+      problem: {
+        ko: '구현, 스타일링, UX 검토를 한 프롬프트에 맡기면 결과가 섞이고, 디자인 토큰이나 보호자 동의 플로우 같은 기준을 매번 다시 설명해야 했습니다.',
+        en: 'Handing implementation, styling and UX review to one prompt blurred the results, and I had to re-explain standards like design tokens or the owner-consent flow every time.',
+      },
+      approach: {
+        ko: '역할을 서브에이전트로 나눴습니다. styling-expert는 Tailwind 컨벤션과 반응형을 맡고, ux-reviewer는 진료 중인 수의사의 흐름을 기준으로 UI를 검토하면서 반복되는 기준을 프로젝트 메모리에 쌓습니다. 성능 측정은 "추정 금지, 측정값만"을 원칙으로 한 전용 프롬프트로 분리했습니다. 커밋·PR 규칙, React 성능과 훅 규칙 같은 반복 작업은 슬래시 커맨드 9종으로, 디자인 작업은 스킬 13종으로 묶었습니다.',
+        en: 'Roles became sub-agents. styling-expert owns Tailwind conventions and responsiveness; ux-reviewer reviews UI from the point of view of a vet mid-treatment and keeps recurring standards in project memory. Performance work got its own prompt with one rule: measured numbers only. Repeated chores (commit and PR rules, React performance and hook rules) became 9 slash commands, and design work became 13 skills.',
+      },
+      tradeoff: {
+        ko: '에이전트가 많아지면 무엇을 불러야 할지가 새 비용이 됩니다. 그래서 각 에이전트 설명에 언제 쓰는지 예시를 넣어, 상황에 맞으면 자동으로 호출되게 했습니다.',
+        en: 'More agents means a new cost: knowing which one to call. Each agent description carries "when to use" examples so it gets invoked automatically.',
+      },
+    },
+    {
+      id: 'context',
+      title: { ko: '팀 사이 컨텍스트를 레포로', en: 'Team context in a repo, not in chat' },
+      problem: {
+        ko: '인프라·백엔드·ML 팀이 각자 Claude Code를 쓰는데, 한쪽 결과를 다른 쪽에 사람이 복사해 옮기고 있었습니다. 옮기는 과정에서 맥락이 빠지고 같은 설명을 여러 번 했습니다.',
+        en: 'Infra, backend and ML each ran their own Claude Code, and people were copy-pasting results between them. Context got lost in transit and the same explanations were repeated.',
+      },
+      approach: {
+        ko: '공유 레포에 요청, 공용 컨텍스트(엔드포인트, 도메인 라우팅 등), 의사결정 로그를 두고 각 프로젝트의 CLAUDE.md가 이 레포를 참조하게 했습니다. 요청은 정해진 형식의 이슈로 만들고, 합의된 계약은 공용 컨텍스트에 반영한 뒤 닫습니다. 지금은 사내 5개 프로젝트가 같은 작업 정보를 봅니다.',
+        en: 'A shared repo holds requests, shared context (endpoints, domain routing and so on) and a decision log, and every project’s CLAUDE.md points to it. Requests are filed as issues in a fixed format; once a contract is agreed it moves into shared context and the issue closes. Five internal projects now read from the same context.',
+      },
+      tradeoff: {
+        ko: '문서가 쌓이면 오래된 정보가 섞입니다. 처리된 요청은 보관 폴더로 옮겨 동결하고, 에이전트는 최신 컨텍스트만 읽게 했습니다.',
+        en: 'Accumulated docs go stale. Handled requests are archived and frozen so agents read only current context.',
+      },
+    },
+  ] satisfies AiCase[],
+  labels: {
+    problem: { ko: '문제', en: 'Problem' },
+    approach: { ko: '방법', en: 'Approach' },
+    tradeoff: { ko: '트레이드오프', en: 'Trade-off' },
+    rules: { ko: '훅이 검사하는 규칙', en: 'Rules the hook checks' },
+  },
+}
+
+export const skillGroups: { label: L; rows: { label: L; items: string }[] }[] = [
+  {
+    label: { ko: '화면', en: 'Frontend' },
+    rows: [
+      { label: { ko: '언어·프레임워크', en: 'Core' }, items: 'TypeScript, React 19, Next.js, Tailwind CSS, shadcn/ui' },
+      { label: { ko: '상태와 폼', en: 'State & forms' }, items: 'TanStack Query/Router, Jotai, react-hook-form, zod' },
+      { label: { ko: '아키텍처', en: 'Architecture' }, items: 'Feature-Sliced Design, steiger' },
+    ],
+  },
+  {
+    label: { ko: '품질과 AI', en: 'Quality & AI' },
+    rows: [
+      { label: { ko: '테스트', en: 'Testing' }, items: 'Vitest, Testing Library, tsc, ESLint' },
+      { label: { ko: 'AI 개발 환경', en: 'AI tooling' }, items: 'Claude Code, MCP, CLAUDE.md, lint hooks, sub-agents' },
+    ],
+  },
+  {
+    label: { ko: '서버와 운영', en: 'Server & ops' },
+    rows: [
+      { label: { ko: '백엔드', en: 'Backend' }, items: 'Python, FastAPI, Spring Boot, JSP, MariaDB' },
+      { label: { ko: '인프라', en: 'Infra' }, items: 'GitHub Actions, AWS S3, Lambda, Sentry, i18next' },
+    ],
+  },
 ]
 
 export const timeline: { period: string; org: L; detail: L }[] = [
   {
-    period: '2024.10 –',
+    period: '2024.10 -',
     org: { ko: '메타디엑스', en: 'MetaDx Inc.' },
-    detail: { ko: '프론트엔드 개발 · 정규직', en: 'Frontend engineer, full-time' },
+    detail: { ko: '웹 개발, 정규직', en: 'Web engineer, full-time' },
   },
   {
-    period: '2024.11 – 2025.02',
+    period: '2024.11 - 2025.02',
     org: { ko: '항해 플러스 프론트엔드 5기', en: 'Hanghae Plus Frontend, 5th cohort' },
     detail: { ko: '프론트엔드 심화 과정 수료', en: 'Advanced frontend program' },
   },
   {
-    period: '2022.11 – 2023.03',
+    period: '2022.11 - 2023.03',
     org: { ko: '퀀텀에이아이', en: 'Quantum AI' },
-    detail: {
-      ko: '보험금 청구 서류 문서관리 시스템 · Spring Boot, JSP, MariaDB',
-      en: 'Insurance-claim document system · Spring Boot, JSP, MariaDB',
-    },
+    detail: { ko: '프론트엔드·백엔드 개발, 정규직', en: 'Frontend and backend, full-time' },
   },
   {
-    period: '2022.05 – 2022.08',
+    period: '2022.05 - 2022.08',
     org: { ko: '위코드 34기', en: 'wecode, 34th cohort' },
     detail: { ko: '프론트엔드 부트캠프 수료', en: 'Frontend bootcamp' },
   },
   {
-    period: '2014.03 – 2020.08',
+    period: '2014.03 - 2020.08',
     org: { ko: '숭실대학교 평생교육원', en: 'Soongsil University (Continuing Ed.)' },
     detail: {
-      ko: '정보통신공학 학사 · 정보처리기사, 네트워크관리사 2급',
-      en: 'B.S. Information & Communication Eng. · Engineer Information Processing',
+      ko: '정보통신공학 학사. 정보처리기사, 네트워크관리사 2급',
+      en: 'B.S. Information & Communication Eng. Engineer Information Processing',
     },
   },
 ]
 
 export const ui = {
   nav: {
+    about: { ko: '소개', en: 'About' },
     work: { ko: '작업', en: 'Work' },
-    ai: { ko: 'AI 워크플로', en: 'AI workflow' },
-    stack: { ko: '스택', en: 'Stack' },
+    ai: { ko: 'AI', en: 'AI' },
     contact: { ko: '연락', en: 'Contact' },
   },
+  peek: { ko: '작업 보기', en: 'See the work' },
   workTitle: { ko: '실제로 쓰이는 화면들', en: 'Screens people actually use' },
   workNote: {
     ko: '사내·고객사 B2B 서비스라 공개 URL 대신 더미 데이터 캡쳐로 보여드립니다.',
     en: 'These are private B2B products, so they are shown as captures with dummy data.',
   },
+  otherTitle: { ko: '화면 밖의 작업', en: 'Work behind the screen' },
   stackTitle: { ko: '다루는 도구', en: 'Tools' },
   historyTitle: { ko: '이력', en: 'History' },
   contactTitle: { ko: '좋은 팀과의 대화는\n언제나 환영합니다.', en: 'Always open to\na good conversation.' },
-  heroCta: { ko: '작업 보기', en: 'See the work' },
+  menu: { ko: '메뉴', en: 'Menu' },
 } satisfies Record<string, L | Record<string, L>>

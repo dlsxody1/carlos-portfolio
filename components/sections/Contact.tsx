@@ -1,5 +1,8 @@
 import type { Locale } from '@/content/resume'
 import { profile, ui } from '@/content/resume'
+import { EnvelopeSimple } from '@phosphor-icons/react/dist/ssr'
+import { siGithub, siVelog } from 'simple-icons'
+import { BrandIcon } from '@/components/glass/BrandIcon'
 import { GlassLink } from '@/components/glass/GlassLink'
 
 export function Contact({ lang }: { lang: Locale }) {
@@ -18,9 +21,9 @@ export function Contact({ lang }: { lang: Locale }) {
           {ui.contactTitle[lang]}
         </h2>
         <div className="mt-12 flex flex-wrap gap-4">
-          <GlassLink href={`mailto:${profile.email}`} label={profile.email} />
-          <GlassLink href={profile.github} label="GitHub" />
-          <GlassLink href={profile.velog} label="velog" />
+          <GlassLink href={`mailto:${profile.email}`} label={profile.email} icon={<EnvelopeSimple size={20} weight="bold" aria-hidden />} />
+          <GlassLink href={profile.github} label="GitHub" icon={<BrandIcon icon={siGithub} className="size-5" />} />
+          <GlassLink href={profile.velog} label="velog" icon={<BrandIcon icon={siVelog} className="size-5" />} />
         </div>
         <p className="mt-32 text-sm text-paper/60">© 2026 {profile.name[lang]}</p>
       </div>

@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1300" viewBox="0 0 1000 1300">
-<rect width="1000" height="1300" fill="#fdfbf8"/><rect width="1000" height="160" fill="#1d2433"/>
-<text x="80" y="100" font-family="sans-serif" font-size="40" font-weight="700" fill="#fdfbf8">CancerVET Report</text>
-<text x="80" y="240" font-family="sans-serif" font-size="22" fill="#8a8175">Placeholder — replace with a real capture</text>
-<rect x="80" y="300" width="840" height="200" rx="12" fill="#f4efe8"/><rect x="120" y="560" width="200" height="34" rx="4" fill="#c9c0b4"/><rect x="120" y="630" width="297" height="34" rx="4" fill="#c9c0b4"/><rect x="120" y="700" width="394" height="34" rx="4" fill="#e0703a"/><rect x="120" y="770" width="491" height="34" rx="4" fill="#c9c0b4"/><rect x="120" y="840" width="588" height="34" rx="4" fill="#c9c0b4"/><rect x="120" y="910" width="685" height="34" rx="4" fill="#c9c0b4"/>
-<rect x="80" y="1020" width="840" height="180" rx="12" fill="#f4efe8"/></svg>

@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { Hero } from '@/components/hero/Hero'
 import { Nav } from '@/components/sections/Nav'
+import { About } from '@/components/sections/About'
 import { Work } from '@/components/sections/Work'
 import { AiWorkflow } from '@/components/sections/AiWorkflow'
 import { Stack } from '@/components/sections/Stack'
@@ -16,6 +17,7 @@ export default async function Page({ params }: PageProps<'/[lang]'>) {
       <Nav lang={lang} />
       <main>
         <Hero lang={lang} />
+        <About lang={lang} />
         <Work lang={lang} />
         <AiWorkflow lang={lang} />
         <Stack lang={lang} />

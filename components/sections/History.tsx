@@ -7,14 +7,13 @@ export function History({ lang }: { lang: Locale }) {
       <h2 className="font-display text-[clamp(2rem,4.5vw,3.6rem)] leading-tight font-semibold tracking-[-0.03em]">
         {ui.historyTitle[lang]}
       </h2>
-      <ol>
+      <ol className="relative border-l border-line pl-8">
         {timeline.map((t) => (
-          <li key={t.period} className="grid gap-1 border-t border-line py-4 sm:grid-cols-[10rem_1fr]">
-            <span className="text-sm text-ink-soft tabular-nums">{t.period}</span>
-            <div>
-              <p className="font-semibold">{t.org[lang]}</p>
-              <p className="mt-0.5 text-sm text-ink-soft">{t.detail[lang]}</p>
-            </div>
+          <li key={t.period} className="relative pb-8 last:pb-0">
+            <span aria-hidden className="absolute top-2 -left-[calc(2rem+4px)] size-[7px] rounded-full bg-ink" />
+            <p className="text-sm text-ink-soft tabular-nums">{t.period}</p>
+            <p className="mt-1 font-semibold">{t.org[lang]}</p>
+            <p className="mt-0.5 text-sm text-ink-soft">{t.detail[lang]}</p>
           </li>
         ))}
       </ol>
