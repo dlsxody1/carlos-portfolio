@@ -8,7 +8,7 @@ export type Project = {
   slug: string
   name: string
   kind: L
-  company: string
+  company: string | L
   period: string
   /** public/shots 아래 캡쳐. 교체 시 비율(width/height)도 맞출 것 */
   shot: string
@@ -228,6 +228,40 @@ export const projects: Project[] = [
     ],
     stack: ['React 19', 'TypeScript', 'TanStack Router/Query', 'Jotai', 'Vite', 'Vitest', 'PWA', 'Azure Blob'],
   },
+  {
+    slug: 'motungi',
+    name: '모퉁이 motungi',
+    kind: { ko: '퇴근 후 동네 여가 추천 서비스', en: 'After-work local picks for Seoul' },
+    company: { ko: '개인 프로젝트', en: 'Side project' },
+    period: '2026.07 -',
+    shot: '/shots/motungi.webp',
+    aspect: 1440 / 900,
+    url: 'https://motungi-web.vercel.app',
+    points: [
+      {
+        title: { ko: '추천 점수를 실측으로 바로잡기', en: 'Fixing the scorer with real numbers' },
+        body: {
+          ko: '후보를 마감 임박순으로 자른 뒤 채점하다 보니, 망원동 10km 후보 236건 중 30건만 점수를 받고 있었습니다. 후보 창을 넓혀 점수순으로 자르게 바꾸고, 사전 필터 때문에 상수가 된 관심사 가중치는 나머지 축에 비례 배분했습니다.',
+          en: 'Candidates were cut by deadline before scoring, so only 30 of 236 within 10km of Mangwon were ever scored. The window now cuts by score, and the interest weight that the pre-filter had flattened is redistributed across the other axes.',
+        },
+      },
+      {
+        title: { ko: '공공데이터 5종 매일 적재', en: 'Five public data sources, every morning' },
+        body: {
+          ko: 'Supabase Edge Function과 pg_cron으로 매일 06시에 공공데이터 5종을 적재합니다. 좌표가 없는 KOPIS 공연은 공연마다 API를 부르는 대신 공연장 이름으로 색인해 63곳을 모두 매칭했고, 카탈로그가 520건에서 902건으로 늘었습니다.',
+          en: 'A Supabase Edge Function on pg_cron loads five public sources at 06:00 daily. KOPIS shows have no coordinates, so instead of one API call per show, venues are indexed by name: all 63 matched and the catalog grew from 520 to 902 items.',
+        },
+      },
+      {
+        title: { ko: '측정하고 나서 고치기', en: 'Measure, then fix' },
+        body: {
+          ko: 'Pretendard를 자체 호스팅해 FCP를 88ms에서 56ms로 줄이고, 반경 조회를 서버로 옮겨 왕복 2회를 1회로 줄였습니다. 저장 토글처럼 자주 쓰는 인터랙션은 렌더 횟수를 테스트로 재서 10회를 6회로 낮췄습니다.',
+          en: 'Self-hosting Pretendard took FCP from 88ms to 56ms, and moving the radius query server-side cut two round trips to one. Render counts are measured in tests: the save toggle went from 10 renders to 6.',
+        },
+      },
+    ],
+    stack: ['Next.js 15', 'React 19', 'Expo', 'Supabase', 'pg_cron', 'pnpm', 'Turborepo', 'Vitest'],
+  },
 ]
 
 /** 캡쳐가 없는 작업은 3D 스토리 대신 짧은 목록으로 */
@@ -267,8 +301,8 @@ export type AiCase = {
 export const aiWorkflow = {
   title: { ko: 'AI가 쓴 코드도\n규칙을 지키게', en: 'Making AI-written code\nfollow the rules' } satisfies L,
   lede: {
-    ko: 'VitalVET에서 Claude Code로 만드는 코드의 비중이 커지면서 생긴 문제와 그걸 푼 방식입니다.',
-    en: 'What went wrong as more of VitalVET was written with Claude Code, and how I fixed it.',
+    ko: 'VitalVET과 개인 프로젝트에서 Claude Code로 만드는 코드의 비중이 커지면서 생긴 문제와, 그걸 푼 방식입니다.',
+    en: 'What went wrong as more of VitalVET and my side project was written with Claude Code, and how I fixed it.',
   } satisfies L,
   cases: [
     {
@@ -337,6 +371,22 @@ FSD 룰 위반 1건 (CLAUDE.md 참고):
         en: 'Accumulated docs go stale. Handled requests are archived and frozen so agents read only current context.',
       },
     },
+    {
+      id: 'nightly',
+      title: { ko: '밤마다 일하는 개발 에이전트', en: 'A development agent that works nights' },
+      problem: {
+        ko: '개인 프로젝트 모퉁이는 퇴근 뒤에만 손댈 수 있어서, 작은 이슈들이 백로그에 계속 쌓였습니다.',
+        en: 'My side project motungi only got evening hours, so small issues kept piling up in the backlog.',
+      },
+      approach: {
+        ko: '매일 밤 클라우드에서 도는 에이전트가 백로그에서 이슈를 1~3개 골라 구현하고, typecheck와 test를 통과해야만 dev 브랜치에 올립니다. main 승격은 사람이 검수한 뒤에만 합니다. 할 일이 2개 미만이면 에이전트가 코드를 감사해 새 이슈를 등록합니다. 이렇게 에이전트가 만든 커밋이 123개입니다.',
+        en: 'Every night a cloud agent picks 1 to 3 backlog issues, implements them and pushes to dev only if typecheck and tests pass. Promotion to main happens only after human review. When fewer than two tasks remain, the agent audits the code and files new ones. 123 commits so far are its own.',
+      },
+      tradeoff: {
+        ko: '처음엔 밤마다 새 브랜치를 파서 머지 충돌이 쌓였고, 트리거 설정과 레포 문서가 서로 어긋나 9일 동안 헛돈 적도 있습니다. 브랜치는 트렁크 방식으로 바꾸고, 규칙의 기준을 레포 문서 하나로 맞췄습니다.',
+        en: 'Early on, a new branch every night piled up merge conflicts, and a mismatch between the trigger config and the repo docs made it spin for nine days. It now works trunk-style, and the repo docs are the single source of its rules.',
+      },
+    },
   ] satisfies AiCase[],
   labels: {
     problem: { ko: '문제', en: 'Problem' },
@@ -350,7 +400,7 @@ export const skillGroups: { label: L; rows: { label: L; items: string }[] }[] = 
   {
     label: { ko: '화면', en: 'Frontend' },
     rows: [
-      { label: { ko: '언어·프레임워크', en: 'Core' }, items: 'TypeScript, React 19, Next.js, Tailwind CSS, shadcn/ui' },
+      { label: { ko: '언어·프레임워크', en: 'Core' }, items: 'TypeScript, React 19, Next.js, React Native(Expo), Tailwind CSS' },
       { label: { ko: '상태와 폼', en: 'State & forms' }, items: 'TanStack Query/Router, Jotai, react-hook-form, zod' },
       { label: { ko: '아키텍처', en: 'Architecture' }, items: 'Feature-Sliced Design, Claude Code hooks' },
     ],
@@ -365,7 +415,7 @@ export const skillGroups: { label: L; rows: { label: L; items: string }[] }[] = 
   {
     label: { ko: '서버와 운영', en: 'Server & ops' },
     rows: [
-      { label: { ko: '백엔드', en: 'Backend' }, items: 'Python, FastAPI, Spring Boot, JSP, MariaDB' },
+      { label: { ko: '백엔드', en: 'Backend' }, items: 'Supabase(Postgres, Edge Functions), Python, FastAPI, Spring Boot, MariaDB' },
       { label: { ko: '인프라', en: 'Infra' }, items: 'GitHub Actions, AWS S3·CloudFront, Azure Blob, PWA, Sentry, i18next' },
     ],
   },
@@ -412,8 +462,8 @@ export const ui = {
   peek: { ko: '작업 보기', en: 'See the work' },
   workTitle: { ko: '만든 서비스', en: 'What I’ve built' },
   workNote: {
-    ko: '홈페이지와 캠페인은 지금 운영 중인 사이트에서 바로 볼 수 있습니다. VitalVET과 Office는 병원과 사내에서 쓰는 서비스라 캡처로 대신합니다.',
-    en: 'The website and campaign are live, so you can open them. VitalVET and Office run inside clinics and the company, so they are shown as captures.',
+    ko: '홈페이지, 캠페인, 모퉁이는 지금 운영 중인 사이트에서 바로 볼 수 있습니다. VitalVET과 Office는 병원과 사내에서 쓰는 서비스라 캡처로 대신합니다.',
+    en: 'The website, the campaign and motungi are live, so you can open them. VitalVET and Office run inside clinics and the company, so they are shown as captures.',
   },
   visit: { ko: '사이트 보기', en: 'Open site' },
   otherTitle: { ko: '화면 밖의 작업', en: 'Work behind the screen' },

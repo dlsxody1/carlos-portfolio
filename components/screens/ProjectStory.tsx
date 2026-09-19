@@ -13,7 +13,7 @@ export function ProjectStory({ projects, lang, visitLabel }: { projects: Project
         {projects.map((p) => (
           <article key={p.slug} data-block className="flex min-h-svh flex-col justify-center py-16">
             <p className="text-sm text-ink-soft">
-              {p.company}, {p.period}
+              {typeof p.company === 'string' ? p.company : p.company[lang]}, {p.period}
             </p>
             <h3 className="mt-2 font-display text-4xl font-semibold tracking-[-0.03em]">{p.name}</h3>
             <p className="mt-1 text-lg text-accent">{p.kind[lang]}</p>
