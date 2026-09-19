@@ -13,6 +13,8 @@ export type Project = {
   /** public/shots 아래 캡쳐. 교체 시 비율(width/height)도 맞출 것 */
   shot: string
   aspect: number
+  /** 공개된 서비스만 */
+  url?: string
   points: { title: L; body: L }[]
   stack: string[]
 }
@@ -41,7 +43,7 @@ export const about = {
       en: 'For 2 years and 3 months I have built a veterinary clinical SaaS, an internal e-approval system and a corporate website. I build the screens in React and TypeScript, but when the problem lives in the server or the deploy, I go there too. I have wired a report pipeline in FastAPI, designed CRUD APIs and tables in Spring Boot, and automated deploys with GitHub Actions and S3.',
     },
     {
-      ko: '요즘은 Claude Code와 MCP를 개발 과정 전반에 씁니다. 대신 AI가 빠르게 만든 코드가 팀의 구조를 무너뜨리지 않도록, 규칙을 문서로만 두지 않고 도구로 강제하는 데 더 많은 시간을 씁니다.',
+      ko: '요즘은 Claude Code와 MCP를 개발 과정 전반에 씁니다. 대신 AI가 빠르게 만든 코드가 팀의 구조를 무너뜨리지 않도록, 규칙을 문서로만 두지 않고 도구로 강제하는 데 더 많은 시간을 들입니다.',
       en: 'These days I use Claude Code and MCP across the whole workflow. The part I spend more time on is making sure fast AI output does not erode the codebase: rules are enforced by tools, not just written down.',
     },
   ] satisfies L[],
@@ -56,14 +58,14 @@ export const about = {
     {
       title: { ko: '운영에서 덜 깨지게 만듭니다', en: 'Build for the day after release' },
       body: {
-        ko: '기능을 만드는 것만큼, 배포 뒤에 생기는 성능·유지보수 문제를 줄이는 데 관심이 많습니다. 틀리면 결재 전체가 멈추는 로직부터 테스트로 묶고, 타입·린트·빌드는 CI가 배포 전에 확인하게 합니다.',
-        en: 'I care as much about what breaks after release as about shipping the feature. Logic that stops every approval when wrong gets tests first, and CI checks types, lint and build before anything deploys.',
+        ko: '기능을 만드는 것만큼 배포 뒤에 생기는 성능·유지보수 문제를 줄이는 데 관심이 많습니다. 한 번 고친 성능 문제는 테스트로 다시 생기지 않게 막고, 배포 뒤 사용자가 옛 버전에 남지 않도록 배포 과정까지 챙깁니다.',
+        en: 'I care as much about what breaks after release as about shipping the feature. A performance fix gets a test so it stays fixed, and the deploy is set up so nobody is left on an old version.',
       },
     },
     {
       title: { ko: '규칙은 문서보다 도구로', en: 'Rules live in tools, not docs' },
       body: {
-        ko: '사람이든 AI든 문서를 매번 읽지는 않습니다. 반드시 지켜야 하는 규칙은 린트와 훅으로 만들어서, 어긴 순간 바로 알 수 있게 합니다.',
+        ko: '사람이든 AI든 문서를 매번 읽지는 않습니다. 반드시 지켜야 하는 규칙은 린트와 훅으로 만들어 어긴 순간 바로 알 수 있게 합니다.',
         en: 'Neither people nor AI re-read the docs every time. Rules that must hold become lint rules and hooks, so a violation surfaces the moment it happens.',
       },
     },
@@ -90,21 +92,21 @@ export const projects: Project[] = [
       {
         title: { ko: '입원 차트 재렌더 범위 축소', en: 'Narrowed inpatient-chart re-renders' },
         body: {
-          ko: '셀 하나를 고치면 표 전체가 다시 그려지던 입원 차트를 React.memo와 콜백 안정화로 수정된 행 하나만 렌더되게 바꿨습니다.',
+          ko: '입원 차트는 셀 하나를 고치면 표 전체가 다시 그려졌습니다. React.memo와 콜백 안정화로 수정된 행 하나만 렌더되게 바꿨습니다.',
           en: 'Editing one cell used to re-render the whole chart. With React.memo and stable callbacks, only the edited row renders now.',
         },
       },
       {
         title: { ko: '흩어진 결제 폼 상태 통합', en: 'Unified scattered payment-form state' },
         body: {
-          ko: 'react-hook-form과 zod로 상태·검증 로직을 한곳에 모으고, 결제 이벤트 추적과 단위 테스트를 같은 자리에 배치했습니다.',
+          ko: 'react-hook-form과 zod로 상태·검증 로직을 한곳에 모으고, 결제 이벤트 추적과 단위 테스트를 같은 자리에 뒀습니다.',
           en: 'Moved state and validation into one place with react-hook-form and zod, with event tracking and unit tests alongside.',
         },
       },
       {
         title: { ko: '4개 언어와 운영 모니터링', en: '4 languages, production monitoring' },
         body: {
-          ko: 'i18next로 한국어·영어·일본어·태국어를 지원하고, Sentry 오류 추적과 GitHub Actions 기반 S3 배포를 자동화했습니다.',
+          ko: 'i18next로 한국어·영어·일본어·태국어를 지원합니다. Sentry로 오류를 추적하고 GitHub Actions 기반 S3 배포를 자동화했습니다.',
           en: 'Korean, English, Japanese and Thai via i18next; Sentry error tracking and automated S3 deploys on GitHub Actions.',
         },
       },
@@ -114,16 +116,24 @@ export const projects: Project[] = [
   {
     slug: 'homepage',
     name: 'MetaDx Homepage',
-    kind: { ko: '기업 홈페이지, Core Web Vitals', en: 'Corporate site, Core Web Vitals' },
+    kind: { ko: '기업 홈페이지 설계부터 운영까지', en: 'Corporate site, built and run end to end' },
     company: 'MetaDx',
-    period: '2025.08 - 2026.05',
-    shot: '/shots/homepage.svg',
-    aspect: 16 / 10,
+    period: '2025.08 - 2026.09',
+    shot: '/shots/homepage.webp',
+    aspect: 1440 / 900,
+    url: 'https://metadxlab.com',
     points: [
+      {
+        title: { ko: '혼자 만들고 운영하는 사이트', en: 'Built and run solo' },
+        body: {
+          ko: '레포의 커밋 171건을 모두 직접 작성했습니다. 퍼블리싱부터 어드민 연동, 다국어, 배포까지 맡고 있습니다.',
+          en: 'All 171 commits in the repo are mine: the UI, the admin integration, localisation and the deploy pipeline.',
+        },
+      },
       {
         title: { ko: '이미지 로딩 시간 약 30% 감소', en: '~30% faster image loading' },
         body: {
-          ko: '대표 이미지에 fetchPriority="high", 나머지는 lazy loading, 대용량 PNG는 sharp로 WebP 변환했습니다.',
+          ko: '대표 이미지에는 fetchPriority="high"를, 나머지에는 lazy loading을 적용하고, 대용량 PNG는 sharp로 WebP 변환했습니다.',
           en: 'fetchPriority="high" on the hero image, lazy loading elsewhere, and heavy PNGs converted to WebP with sharp.',
         },
       },
@@ -137,7 +147,7 @@ export const projects: Project[] = [
       {
         title: { ko: 'SPA 검색 노출', en: 'Getting an SPA indexed' },
         body: {
-          ko: '메타데이터와 hreflang을 적용하고 prerender로 생성한 HTML을 S3에 자동 업로드해 다국어 페이지를 노출시켰습니다.',
+          ko: '메타데이터와 hreflang을 적용하고 prerender로 생성한 HTML을 S3에 자동 업로드해 다국어 페이지가 검색에 노출되게 했습니다.',
           en: 'Added metadata and hreflang, then prerendered HTML and auto-uploaded it to S3 so each language gets indexed.',
         },
       },
@@ -145,30 +155,78 @@ export const projects: Project[] = [
     stack: ['React 19', 'TanStack Router', 'Tailwind CSS v4', 'sharp', 'prerender', 'AWS S3'],
   },
   {
-    slug: 'office',
-    name: 'MetaDx Office',
-    kind: { ko: '사내 전자결재와 경비 관리', en: 'Internal e-approval & expenses' },
+    slug: 'campaign',
+    name: 'VitalVET Campaign',
+    kind: { ko: 'AI와 함께 디자인한 캠페인 랜딩', en: 'Campaign landing designed with AI' },
     company: 'MetaDx',
-    period: '2025.05 - 2026.07',
-    shot: '/shots/office.svg',
-    aspect: 16 / 10,
+    period: '2026.09',
+    shot: '/shots/campaign.webp',
+    aspect: 1440 / 900,
+    url: 'https://metadxlab.com/vitalvet-campaign',
     points: [
       {
-        title: { ko: '결재 로직 단위 테스트 25개', en: '25 unit tests on approval logic' },
+        title: { ko: '기획서 5장에서 바로 페이지로', en: 'From a 5-slide brief to a live page' },
         body: {
-          ko: '결재 상태머신, 401 인터셉터, 인증 가드, 결재선 금액 규칙처럼 틀리면 결재 전체에 영향을 주는 로직을 테스트로 묶었습니다.',
-          en: 'Covered the logic that breaks every approval when wrong: the state machine, 401 interceptor, auth guard and approval-line amount rules.',
+          ko: '디자이너 없이 기획서 PPT 5장을 받아 Claude Code와 디자인 스킬로 레이아웃·카피·인터랙션을 잡고 바로 구현했습니다. 참고한 서비스의 인터랙션을 분석해 우리 맥락에 맞게 옮겼습니다.',
+          en: 'With no designer, I took a 5-slide brief and used Claude Code with design skills to shape layout, copy and interaction, then built it directly, adapting interactions from reference products.',
         },
       },
       {
-        title: { ko: '배포 전 검증 파이프라인', en: 'Pre-deploy checks in CI' },
+        title: { ko: '홈 진입 프로모 모달', en: 'Promo modal on the home page' },
         body: {
-          ko: 'tsc, 린트, 빌드를 CI에 넣고 steiger로 FSD 레이어 간 의존 규칙을 검사합니다.',
-          en: 'tsc, lint and build run in CI, and steiger enforces FSD layer dependency rules.',
+          ko: '홈에 캠페인 안내 모달을 띄우고 "오늘 하루 보지 않기"를 넣었습니다. 캠페인 종료일이 지나면 모달은 자동으로 숨겨집니다.',
+          en: 'A campaign modal on the home page with "don’t show today" and automatic retirement after the campaign ends.',
+        },
+      },
+      {
+        title: { ko: '검색에 걸리는 캠페인', en: 'Indexable from day one' },
+        body: {
+          ko: 'SEO 메타와 브레드크럼을 넣어 정적 HTML과 사이트맵에 바로 포함되게 했습니다.',
+          en: 'SEO metadata and breadcrumbs so the page ships as static HTML and lands in the sitemap.',
         },
       },
     ],
-    stack: ['React 19', 'TypeScript', 'TanStack Router/Query', 'react-hook-form', 'zod', 'Vitest', 'steiger'],
+    stack: ['React 19', 'TanStack Router', 'Tailwind CSS v4', 'Claude Code', 'prerender'],
+  },
+  {
+    slug: 'office',
+    name: 'MetaDx Office',
+    kind: { ko: '사내 전자결재와 경비 관리, 15개월 1인 개발', en: 'Internal e-approval & expenses, solo for 15 months' },
+    company: 'MetaDx',
+    period: '2025.05 - 2026.08',
+    shot: '/shots/office.webp',
+    aspect: 1230 / 1240,
+    points: [
+      {
+        title: { ko: '편집한 행만 다시 그리기', en: 'Only the edited row re-renders' },
+        body: {
+          ko: '지출품의서 표는 행이 많아 한 칸만 고쳐도 표 전체가 다시 그려졌습니다. 각 행이 jotai selectAtom으로 자기 데이터만 구독하게 바꾸고, 1번 행을 고칠 때 2번 행이 다시 그려지지 않는지 테스트 7개로 확인합니다.',
+          en: 'Editing one cell of the expense table re-rendered the whole table. Each row now subscribes to its own slice via jotai selectAtom, and 7 tests assert that editing row 1 never re-renders row 2.',
+        },
+      },
+      {
+        title: { ko: '쓰던 결재 문서 자동 저장', en: 'Drafts that survive a closed tab' },
+        body: {
+          ko: '문서 종류와 문서 번호를 키로 IndexedDB에 임시저장하고 다시 들어오면 복구합니다. 제출에 성공하면 임시본을 지웁니다. 문서 6종이 같은 저장·복구 훅을 씁니다.',
+          en: 'Drafts are saved to IndexedDB keyed by document type and number, restored on return, and cleared on successful submit. All 6 document types share one save/restore hook.',
+        },
+      },
+      {
+        title: { ko: '영수증과 첨부 파일', en: 'Receipts and attachments' },
+        body: {
+          ko: '아이폰 영수증(HEIC)은 확장자 대신 파일 앞부분 바이트로 판별하고, 변환 라이브러리는 필요할 때만 불러와 JPEG로 바꿉니다. PDF 미리보기와 PDF 내보내기 라이브러리도 버튼을 누를 때 불러와 첫 로딩에서 뺐습니다.',
+          en: 'iPhone receipts (HEIC) are detected by magic bytes rather than extension and converted to JPEG with a library loaded only on demand. PDF preview and export libraries also load on click, keeping them out of the initial bundle.',
+        },
+      },
+      {
+        title: { ko: '옛 버전에 갇히지 않는 배포', en: 'Deploys that never strand users' },
+        body: {
+          ko: 'PWA라 배포 후에도 옛 화면이 남는 문제가 있었습니다. GitHub Actions로 Azure Blob에 배포할 때 index.html, 서비스워커, manifest만 캐시 없이 다시 올리고, 새 서비스워커는 바로 교체되게 했습니다.',
+          en: 'As a PWA, old builds lingered after deploys. The GitHub Actions upload to Azure Blob re-sends index.html, the service worker and the manifest with no-cache, and the new worker takes over immediately.',
+        },
+      },
+    ],
+    stack: ['React 19', 'TypeScript', 'TanStack Router/Query', 'Jotai', 'Vite', 'Vitest', 'PWA', 'Azure Blob'],
   },
 ]
 
@@ -179,7 +237,7 @@ export const otherWork: { name: L; kind: L; period: string; body: L; stack: stri
     kind: { ko: '진단 리포트 자동 생성 파이프라인', en: 'Automated diagnostic report pipeline' },
     period: '2025.01 - 2025.05',
     body: {
-      ko: '검사 결과 리포트를 HTML/CSS로 만들고 Playwright로 PDF를 생성했습니다. 로컬과 Linux 컨테이너에서 한글 폰트가 어긋나던 문제는 Pretendard와 NotoSansKR을 웹폰트로 포함해 해결했고, Lambda와 S3로 나뉘어 있던 구조를 FastAPI 서버로 통합하는 작업에 참여했습니다.',
+      ko: '검사 결과 리포트를 HTML/CSS로 만들고 Playwright로 PDF를 생성했습니다. 로컬과 Linux 컨테이너에서 한글 폰트가 어긋나던 문제는 Pretendard와 NotoSansKR을 웹폰트로 포함해 해결했습니다. Lambda와 S3로 나뉘어 있던 구조를 FastAPI 서버로 통합하는 작업에도 참여했습니다.',
       en: 'Built the report in HTML/CSS and rendered it to PDF with Playwright. Korean fonts that drifted between local and Linux containers were fixed by bundling Pretendard and NotoSansKR, and I helped merge a split Lambda + S3 setup into one FastAPI server.',
     },
     stack: 'Python, FastAPI, Playwright, AWS Lambda, S3',
@@ -209,7 +267,7 @@ export type AiCase = {
 export const aiWorkflow = {
   title: { ko: 'AI가 쓴 코드도\n규칙을 지키게', en: 'Making AI-written code\nfollow the rules' } satisfies L,
   lede: {
-    ko: 'VitalVET에서 Claude Code로 만드는 코드의 비중이 커지면서 생긴 문제와, 그걸 푼 방식입니다.',
+    ko: 'VitalVET에서 Claude Code로 만드는 코드의 비중이 커지면서 생긴 문제와 그걸 푼 방식입니다.',
     en: 'What went wrong as more of VitalVET was written with Claude Code, and how I fixed it.',
   } satisfies L,
   cases: [
@@ -217,7 +275,7 @@ export const aiWorkflow = {
       id: 'hook',
       title: { ko: '파일을 고치는 순간 검사하는 린트 훅', en: 'A lint hook that runs on every edit' },
       problem: {
-        ko: 'AI가 만든 코드가 늘면서 FSD 경계가 조금씩 무너졌습니다. entities에서 mutation을 부르거나, 다른 슬라이스의 내부 파일을 직접 import하거나, 공용 Dialog 대신 모달을 새로 만드는 식입니다. 리뷰에서 같은 지적을 반복했고, CLAUDE.md에 적어 둬도 긴 작업 중에는 다시 어겼습니다.',
+        ko: 'AI가 만든 코드가 늘면서 FSD 경계가 조금씩 무너졌습니다. entities에서 mutation을 부르거나, 다른 슬라이스의 내부 파일을 직접 import하거나, 공용 Dialog 대신 모달을 새로 만드는 식입니다. 리뷰에서 같은 지적을 반복했고 CLAUDE.md에 적어 둬도 긴 작업 중에는 다시 어겼습니다.',
         en: 'As AI output grew, FSD boundaries slowly eroded: mutations in entities, deep imports into another slice, hand-rolled modals instead of the shared Dialog. Reviews repeated the same comments, and writing the rules in CLAUDE.md did not survive long sessions.',
       },
       approach: {
@@ -225,7 +283,7 @@ export const aiWorkflow = {
         en: 'I added a PostToolUse hook (fsd-lint.mjs) that runs every time Claude Code saves a file with Edit or Write. On a violation it exits with code 2 and hands the agent the file, line and the fix, so the agent corrects it before moving on.',
       },
       tradeoff: {
-        ko: '기존 코드의 위반까지 전부 막으면 작업이 멈춥니다. 그래서 훅은 방금 수정한 파일만 검사하고, 새로 들어온 위반만 고치라고 안내합니다. 남은 위반은 그 파일을 다시 만질 때 조금씩 회수합니다.',
+        ko: '기존 코드의 위반까지 전부 막으면 작업이 멈춥니다. 그래서 훅은 방금 수정한 파일만 검사하고 새로 들어온 위반만 고치라고 안내합니다. 남은 위반은 그 파일을 다시 만질 때 조금씩 고쳐 나갑니다.',
         en: 'Blocking every legacy violation would halt all work. The hook checks only the file just edited and asks the agent to fix only newly introduced violations; old ones are paid down whenever that file is touched again.',
       },
       rules: [
@@ -259,7 +317,7 @@ FSD 룰 위반 1건 (CLAUDE.md 참고):
         en: 'Roles became sub-agents. styling-expert owns Tailwind conventions and responsiveness; ux-reviewer reviews UI from the point of view of a vet mid-treatment and keeps recurring standards in project memory. Performance work got its own prompt with one rule: measured numbers only. Repeated chores (commit and PR rules, React performance and hook rules) became 9 slash commands, and design work became 13 skills.',
       },
       tradeoff: {
-        ko: '에이전트가 많아지면 무엇을 불러야 할지가 새 비용이 됩니다. 그래서 각 에이전트 설명에 언제 쓰는지 예시를 넣어, 상황에 맞으면 자동으로 호출되게 했습니다.',
+        ko: '에이전트가 많아지면 무엇을 불러야 할지가 새 비용이 됩니다. 그래서 각 에이전트 설명에 언제 쓰는지 예시를 넣어 상황에 맞으면 자동으로 호출되게 했습니다.',
         en: 'More agents means a new cost: knowing which one to call. Each agent description carries "when to use" examples so it gets invoked automatically.',
       },
     },
@@ -271,7 +329,7 @@ FSD 룰 위반 1건 (CLAUDE.md 참고):
         en: 'Infra, backend and ML each ran their own Claude Code, and people were copy-pasting results between them. Context got lost in transit and the same explanations were repeated.',
       },
       approach: {
-        ko: '공유 레포에 요청, 공용 컨텍스트(엔드포인트, 도메인 라우팅 등), 의사결정 로그를 두고 각 프로젝트의 CLAUDE.md가 이 레포를 참조하게 했습니다. 요청은 정해진 형식의 이슈로 만들고, 합의된 계약은 공용 컨텍스트에 반영한 뒤 닫습니다. 지금은 사내 5개 프로젝트가 같은 작업 정보를 봅니다.',
+        ko: '공유 레포에 요청, 공용 컨텍스트(엔드포인트, 도메인 라우팅 등), 의사결정 로그를 두고 각 프로젝트의 CLAUDE.md가 이 레포를 참조하게 했습니다. 요청은 정해진 형식의 이슈로 만들고 합의된 계약은 공용 컨텍스트에 반영한 뒤 이슈를 닫습니다. 지금은 사내 5개 프로젝트가 같은 작업 정보를 봅니다.',
         en: 'A shared repo holds requests, shared context (endpoints, domain routing and so on) and a decision log, and every project’s CLAUDE.md points to it. Requests are filed as issues in a fixed format; once a contract is agreed it moves into shared context and the issue closes. Five internal projects now read from the same context.',
       },
       tradeoff: {
@@ -352,11 +410,12 @@ export const ui = {
     contact: { ko: '연락', en: 'Contact' },
   },
   peek: { ko: '작업 보기', en: 'See the work' },
-  workTitle: { ko: '실제로 쓰이는 화면들', en: 'Screens people actually use' },
+  workTitle: { ko: '만든 서비스', en: 'What I’ve built' },
   workNote: {
-    ko: '사내·고객사 B2B 서비스라 공개 URL 대신 더미 데이터 캡쳐로 보여드립니다.',
-    en: 'These are private B2B products, so they are shown as captures with dummy data.',
+    ko: '홈페이지와 캠페인은 지금 운영 중인 사이트에서 바로 볼 수 있습니다. VitalVET과 Office는 병원과 사내에서 쓰는 서비스라 캡처로 대신합니다.',
+    en: 'The website and campaign are live, so you can open them. VitalVET and Office run inside clinics and the company, so they are shown as captures.',
   },
+  visit: { ko: '사이트 보기', en: 'Open site' },
   otherTitle: { ko: '화면 밖의 작업', en: 'Work behind the screen' },
   stackTitle: { ko: '다루는 도구', en: 'Tools' },
   historyTitle: { ko: '이력', en: 'History' },

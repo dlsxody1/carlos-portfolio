@@ -1,8 +1,9 @@
 import Image from 'next/image'
 import type { Locale, Project } from '@/content/resume'
+import { ArrowUpRight } from '@phosphor-icons/react/dist/ssr'
 import { StoryScene } from './StoryScene'
 
-export function ProjectStory({ projects, lang }: { projects: Project[]; lang: Locale }) {
+export function ProjectStory({ projects, lang, visitLabel }: { projects: Project[]; lang: Locale; visitLabel: string }) {
   // 3D 씬에는 텍스트 없이 캡쳐 정보만 넘긴다 (RSC 직렬화 최소화)
   const shots = projects.map(({ slug, shot, aspect }) => ({ slug, shot, aspect }))
 
@@ -35,6 +36,17 @@ export function ProjectStory({ projects, lang }: { projects: Project[]; lang: Lo
               ))}
             </dl>
             <p className="mt-6 text-sm text-ink-soft">{p.stack.join(', ')}</p>
+            {p.url ? (
+              <a
+                href={p.url}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-6 inline-flex w-fit items-center gap-1.5 rounded-full border border-ink/15 px-4 py-2 text-sm font-medium transition-colors hover:border-ink hover:bg-ink hover:text-paper"
+              >
+                {visitLabel}
+                <ArrowUpRight size={14} weight="bold" aria-hidden />
+              </a>
+            ) : null}
           </article>
         ))}
       </div>
