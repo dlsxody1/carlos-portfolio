@@ -1,36 +1,19 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# carlos-portfolio
 
-## Getting Started
-
-First, run the development server:
+김인태 포트폴리오 — Next.js 16 · React 19 · Tailwind v4 · R3F · shadergradient · paper-design LiquidMetal · liquid-glass-js
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev   # http://localhost:3000 → /ko 또는 /en 으로 리다이렉트
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 내용 수정
+모든 텍스트(ko/en)는 `content/resume.ts` 한 파일에 있다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 화면 캡쳐 교체
+1. **더미 데이터 상태**로 캡쳐 (보호자·환자·결재 실데이터 금지)
+2. `public/shots/<slug>.webp` 로 저장 (가로 1600px 권장) — slug: `vitalvet`, `homepage`, `office`, `cancervet`
+3. `content/resume.ts` 해당 프로젝트의 `shot` 경로와 `aspect`(가로/세로)를 맞춘다
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 구조 메모
+- 3D 스크롤 스토리(`components/screens`)와 LiquidMetal 로고는 `min-width:1024px` + 모션 허용일 때만. 그 외엔 2D 캡쳐
+- `lib/liquid-glass/` 는 dashersw/liquid-glass-js(MIT) vendoring. html2canvas 스냅샷을 굴절시키는 구조라 WebGL 위가 아닌 Contact 버튼에만 쓴다

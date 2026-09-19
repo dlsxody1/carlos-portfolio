@@ -1,26 +1,65 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-paper: oklch(97.6% 0.009 75);
+  --color-paper-deep: oklch(93.5% 0.016 70);
+  --color-ink: oklch(24% 0.03 258);
+  --color-ink-soft: oklch(46% 0.025 258);
+  --color-line: oklch(86% 0.014 70);
+  --color-accent: oklch(63% 0.165 42);
+
+  --font-sans: "Pretendard Variable", Pretendard, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), "Pretendard Variable", sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  word-break: keep-all;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+::selection {
+  background: var(--color-accent);
+  color: var(--color-paper);
+}
+
+/* liquid-glass-js 버튼: 텍스트는 우리가 anchor 로 따로 그린다.
+   캔버스가 z-index:-1 이라 버튼 자체를 stacking context 로 만들어야 섹션 배경 뒤로 숨지 않는다 */
+.glass-button {
+  isolation: isolate;
+}
+.glass-button-text {
+  display: none;
+}
+
+@utility glass {
+  background: color-mix(in oklch, var(--color-paper) 78%, transparent);
+  backdrop-filter: blur(18px) saturate(1.6);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklch, white 70%, transparent),
+    0 8px 30px -12px color-mix(in oklch, var(--color-ink) 30%, transparent);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
 }
