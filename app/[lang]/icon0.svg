@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <radialGradient id="bg" cx="78%" cy="14%" r="95%">
+      <stop offset="0" stop-color="#3a2f4d"/>
+      <stop offset=".55" stop-color="#1d2433"/>
+      <stop offset="1" stop-color="#141925"/>
+    </radialGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2=".35" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".45" stop-color="#ffd9c2"/>
+      <stop offset=".62" stop-color="#f07a45"/>
+      <stop offset="1" stop-color="#dcd4ea"/>
+    </linearGradient>
+    <linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".16"/>
+      <stop offset=".5" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="url(#bg)"/>
+  <rect x="1" y="1" width="62" height="62" rx="14" fill="url(#gloss)"/>
+  <path d="M13.5 49.3V16.7H21.4V49.3Z M24.4 49.3V16.7H33.9L42.9 37.5H43.0V16.7H50.5V49.3H41.3L32.1 28.1H31.9V49.3Z" fill="url(#metal)"/>
+</svg>

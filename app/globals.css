@@ -31,6 +31,21 @@ html {
   }
 }
 
+/* 한국어 줄바꿈: 어절 단위(keep-all) + 마지막 줄에 한두 어절만 남는 고아 줄 방지.
+   pretty 는 한 단어 고아만 막아서, 2~5줄짜리 설명문은 줄 길이를 고르게 맞추는 balance 를 쓴다
+   (Chrome 은 6줄까지 balance, 그 이상은 pretty 로 폴백) */
+p,
+li,
+dd,
+dt,
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: pretty;
+  text-wrap: balance;
+}
+
 ::selection {
   background: var(--color-accent);
   color: var(--color-paper);

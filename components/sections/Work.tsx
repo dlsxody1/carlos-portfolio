@@ -15,7 +15,7 @@ export function Work({ lang }: { lang: Locale }) {
 
       <div className="mx-auto max-w-7xl px-5 pt-16 pb-28 sm:px-10">
         <h3 className="font-display text-2xl font-semibold tracking-tight">{ui.otherTitle[lang]}</h3>
-        <div className="mt-8 grid gap-12 md:grid-cols-2">
+        <div className="mt-8 grid gap-12 lg:grid-cols-2">
           {otherWork.map((w) => (
             <article key={w.name.en}>
               <p className="text-sm text-ink-soft tabular-nums">{w.period}</p>

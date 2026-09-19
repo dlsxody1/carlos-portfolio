@@ -15,6 +15,8 @@ import type { Group, ShaderMaterial } from 'three'
 const REACH = 2.7
 const RAYS = 1400
 const PER_RAY = 12
+/** 구 중심 높이. 캔버스 바닥 근처에 두어 해가 떠오르는 구도를 만든다 */
+const SUN_Y = -2.9
 
 function buildCloud() {
   const count = RAYS * PER_RAY
@@ -147,14 +149,14 @@ function Burst({ active }: { active: boolean }) {
     haze.current.uniforms.uHaze.value = 0.35 + u.uBurst.value * 0.5
 
     const g = group.current
-    g.rotation.y += dt * 0.25
+    g.rotation.y += dt * 0.12
     // 포인터 쪽으로 살짝 기운다
-    easing.dampE(g.rotation, [state.pointer.y * -0.35 + Math.sin(g.rotation.y * 0.6) * 0.3, g.rotation.y, state.pointer.x * 0.2], 0.4, dt)
+    easing.dampE(g.rotation, [state.pointer.y * -0.15 + Math.sin(g.rotation.y * 0.6) * 0.15, g.rotation.y, state.pointer.x * 0.12], 0.4, dt)
   })
 
   return (
     <>
-      <mesh scale={REACH * 2.6}>
+      <mesh scale={REACH * 2.6} position-y={SUN_Y}>
         <planeGeometry />
         <shaderMaterial
           ref={haze}
@@ -168,7 +170,7 @@ function Burst({ active }: { active: boolean }) {
           depthTest={false}
         />
       </mesh>
-      <group ref={group}>
+      <group ref={group} position-y={SUN_Y}>
         <points geometry={geometry} frustumCulled={false}>
           <shaderMaterial
             ref={points}
@@ -208,7 +210,7 @@ export default function ParticleBurst() {
           eventPrefix="client"
           frameloop={visible ? 'always' : 'never'}
           dpr={[1, 1.75]}
-          camera={{ position: [0, 0, 7.5], fov: 50 }}
+          camera={{ position: [0, 0, 6.5], fov: 50 }}
           gl={{ alpha: true, antialias: false, premultipliedAlpha: true }}
         >
           <Burst active={visible} />
