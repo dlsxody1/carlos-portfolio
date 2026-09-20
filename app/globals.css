@@ -63,9 +63,11 @@ h4 {
 }
 
 @utility glass {
-  background: color-mix(in oklch, var(--color-paper) 78%, transparent);
+  /* 78% 는 뒤 글자가 그대로 읽혔다. 블러가 걸려도 본문이 비치면 안 되는 값으로 올린다 */
+  background: color-mix(in oklch, var(--color-paper) 88%, transparent);
+  /* -webkit- 접두사 버전을 같이 쓰면 빌드(Lightning CSS)가 표준 속성을 지우고 접두사만 남긴다.
+     그런데 요즘 Chrome 은 -webkit-backdrop-filter 를 모른다 → 블러가 통째로 죽는다. 표준만 쓴다 */
   backdrop-filter: blur(18px) saturate(1.6);
-  -webkit-backdrop-filter: blur(18px) saturate(1.6);
   box-shadow:
     inset 0 1px 0 color-mix(in oklch, white 70%, transparent),
     0 8px 30px -12px color-mix(in oklch, var(--color-ink) 30%, transparent);
@@ -108,6 +110,21 @@ h4 {
   to {
     transform: scaleX(1);
   }
+}
+
+/* 모바일 메뉴가 펼쳐지면 반투명을 아예 끈다 — 메뉴 글자와 본문이 겹치는 게 제일 안 읽힌다.
+   레이어 밖 규칙이라 .glass 유틸리티보다 뒤에 적용된다 */
+nav[data-open] {
+  background: var(--color-paper);
+  backdrop-filter: none;
+}
+
+/* 코드 슬라이드 트랙: 스와이프는 브라우저 스크롤 스냅이 하고, 스크롤바만 숨긴다 */
+.slides {
+  scrollbar-width: none;
+}
+.slides::-webkit-scrollbar {
+  display: none;
 }
 
 @keyframes rise {

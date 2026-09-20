@@ -272,3 +272,60 @@ FSD 룰 위반 1건 (CLAUDE.md 참고):
   깊은 경로 import 금지: @/entities/pet/model/types
   슬라이스 Public API 경유: from "@/entities/pet"`,
 }
+
+export const promoModal: Snippet = {
+  label: {
+    ko: '홈 진입 모달 — 하루 숨기기와, 캠페인이 끝나면 저절로 사라지기',
+    en: 'Home promo modal: hide for a day, and retire itself when the campaign ends',
+  },
+  lang: 'ts',
+  code: `// 띄울지 말지는 화면 밖에서 정한다.
+// 컴포넌트는 결과만 받고, 이 판단만 따로 테스트한다
+const KEY = 'campaign-dismissed'
+const day = (d: Date) => d.toISOString().slice(0, 10)
+
+export function showPromo(now: Date, endsAt: Date) {
+  // 캠페인이 끝나면 코드를 지우러 오지 않아도 안 뜬다
+  if (now > endsAt) return false
+  return localStorage.getItem(KEY) !== day(now)
+}
+
+// '오늘 하루 보지 않기' 는 날짜를 남긴다.
+// 자정이 지나면 키가 달라져서 자연히 다시 뜬다
+export const dismissToday = (now: Date) =>
+  localStorage.setItem(KEY, day(now))
+
+it('캠페인 종료 다음 날엔 뜨지 않는다', () => {
+  const [ended, now] = [d('2026-09-30'), d('2026-10-01')]
+  expect(showPromo(now, ended)).toBe(false)
+})`,
+}
+
+export const venueIndex: Snippet = {
+  label: {
+    ko: '공연마다 API 한 번씩 대신, 공연장 이름으로 색인 한 번',
+    en: 'One name index instead of one API call per show',
+  },
+  lang: 'ts',
+  code: `// KOPIS 공연 데이터에는 좌표가 없고 공연장 이름만 있다.
+// 공연마다 공연장 API 를 부르면 수백 번이라,
+// 공연장 목록을 한 번 받아 이름으로 색인해 둔다
+const byName = new Map(venues.map((v) => [key(v.name), v]))
+
+// 표기 흔들림(괄호 주석·공백·대소문자)을 하나로 모은다
+const key = (s: string) =>
+  s.replace(/\\(.*?\\)/g, '')
+    .replace(/\\s+/g, '')
+    .toLowerCase()
+
+for (const show of shows) {
+  const venue = byName.get(key(show.venueName))
+  if (!venue) {
+    unmatched.push(show.venueName)
+    continue
+  }
+  rows.push({ ...show, lat: venue.lat, lng: venue.lng })
+}
+
+// 공연장 63곳 전부 매칭, 카탈로그 520 → 902건`,
+}

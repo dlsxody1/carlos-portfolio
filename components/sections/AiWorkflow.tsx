@@ -32,9 +32,8 @@ export function AiWorkflow({ lang }: { lang: Locale }) {
                     <p className="text-sm font-semibold text-accent">{labels.rules[lang]}</p>
                     <ul className="mt-3 grid gap-px overflow-hidden rounded-xl border border-ink/10 bg-ink/10 sm:grid-cols-2">
                       {c.rules.map((r) => (
-                        <li key={r.code} className="flex gap-3 bg-paper px-4 py-3.5 text-[0.95rem] leading-snug last:sm:col-span-2">
-                          <code className="font-semibold text-ink-soft">{r.code}</code>
-                          <span>{r[lang]}</span>
+                        <li key={r.en} className="bg-paper px-4 py-3.5 text-[0.95rem] leading-snug last:sm:col-span-2">
+                          {r[lang]}
                         </li>
                       ))}
                     </ul>

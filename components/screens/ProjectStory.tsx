@@ -4,17 +4,18 @@ import { ArrowUpRight } from '@phosphor-icons/react/dist/ssr'
 import { StoryScene } from './StoryScene'
 import { CodeBlock } from '@/components/code/CodeBlock'
 import { Drop } from '@/components/code/Drop'
+import { CodeSlider } from '@/components/code/CodeSlider'
 
 export function ProjectStory({
   projects,
   lang,
   visitLabel,
-  codeLabel,
+  codeLabels,
 }: {
   projects: Project[]
   lang: Locale
   visitLabel: string
-  codeLabel: string
+  codeLabels: { open: string; prev: string; next: string }
 }) {
   // 3D 씬에는 텍스트 없이 캡쳐 정보만 넘긴다 (RSC 직렬화 최소화)
   const shots = projects.map(({ slug, shot, aspect }) => ({ slug, shot, aspect }))
@@ -44,18 +45,25 @@ export function ProjectStory({
                 <div key={pt.title.en} className="border-t border-line pt-4">
                   <dt className="font-semibold">{pt.title[lang]}</dt>
                   <dd className="mt-1.5 leading-relaxed text-ink-soft">{pt.body[lang]}</dd>
-                  {/* 훑는 사람의 흐름을 끊지 않게 기본은 접어 둔다 */}
-                  {pt.snippet ? (
-                    <dd className="mt-3.5">
-                      <Drop label={codeLabel}>
-                        <CodeBlock snippet={pt.snippet} locale={lang} />
-                      </Drop>
-                    </dd>
-                  ) : null}
                 </div>
               ))}
             </dl>
             <p className="mt-6 text-sm text-ink-soft">{p.stack.join(', ')}</p>
+
+            {/* 훑는 흐름을 끊지 않게 기본은 접어 두고, 열면 이 프로젝트의 코드를 슬라이드로 넘긴다 */}
+            {p.snippets?.length ? (
+              <div className="mt-6">
+                <Drop label={codeLabels.open}>
+                  <CodeSlider
+                    prevLabel={codeLabels.prev}
+                    nextLabel={codeLabels.next}
+                    slides={p.snippets.map((snippet) => (
+                      <CodeBlock key={snippet.label.en} snippet={snippet} locale={lang} />
+                    ))}
+                  />
+                </Drop>
+              </div>
+            ) : null}
             {p.url ? (
               <a
                 href={p.url}

@@ -70,6 +70,7 @@ export function Nav({
     <header className="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
       <nav
         data-scrolled={shrunk || undefined}
+        data-open={open || undefined}
         className="glass relative w-full max-w-[40rem] overflow-hidden rounded-[1.75rem] transition-[max-width,background-color] duration-500 ease-(--ease-out-expo) data-scrolled:max-w-[34rem]"
       >
         <div className="flex h-14 items-center gap-2 pr-2 pl-5">
