@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, ArrowUpRight } from '@phosphor-icons/react/dist/ssr'
+import { ArrowLeft } from '@phosphor-icons/react/dist/ssr'
 import { Nav } from '@/components/sections/Nav'
 import { Drop } from '@/components/code/Drop'
 import { hasLocale, profile, ui } from '@/content/resume'
@@ -27,15 +27,6 @@ export default async function StudyPage({ params }: PageProps<'/[lang]/study'>) 
         </h1>
         <p className="mt-5 text-lg leading-relaxed text-ink-soft">{study.lede[lang]}</p>
         <p className="mt-6 text-sm text-ink-soft">{study.meta[lang]}</p>
-        <a
-          href={study.repo}
-          target="_blank"
-          rel="noreferrer"
-          className="mt-4 inline-flex w-fit items-center gap-1.5 rounded-full border border-ink/15 px-4 py-2 text-sm font-medium transition-colors hover:border-ink hover:bg-ink hover:text-paper"
-        >
-          {labels.repoLink[lang]}
-          <ArrowUpRight size={14} weight="bold" aria-hidden />
-        </a>
 
         <div className="mt-20 space-y-16">
           {study.books.map((b) => (
@@ -53,15 +44,6 @@ export default async function StudyPage({ params }: PageProps<'/[lang]/study'>) 
                       <li key={c.en}>{c[lang]}</li>
                     ))}
                   </ul>
-                  <a
-                    href={b.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-5 inline-flex items-center gap-1.5 text-sm text-accent underline underline-offset-4 hover:text-ink"
-                  >
-                    {study.noteCount(b.notes)[lang]} {labels.all[lang]}
-                    <ArrowUpRight size={13} weight="bold" aria-hidden />
-                  </a>
                 </Drop>
               </div>
             </article>

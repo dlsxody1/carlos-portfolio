@@ -477,7 +477,7 @@ export const ui = {
     contact: { ko: '연락', en: 'Contact' },
   },
   study: { ko: '공부', en: 'Study' },
-  showCode: { ko: '이 프로젝트의 코드', en: 'Code from this project' },
+  showCode: { ko: '어떻게 풀었는지', en: 'How I solved it' },
   prevCode: { ko: '이전 코드', en: 'Previous snippet' },
   nextCode: { ko: '다음 코드', en: 'Next snippet' },
   peek: { ko: '작업 보기', en: 'See the work' },

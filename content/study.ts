@@ -3,7 +3,11 @@ import type { Locale } from './resume'
 type L = Record<Locale, string>
 
 const REPO = 'https://github.com/after-study/Study'
-/** 본인 노트만 링크한다. 2인 스터디라 같은 레포에 상대방 폴더가 따로 있다 */
+/**
+ * 지금은 어디에도 렌더하지 않는다 — 레포에 책 지면을 촬영한 이미지가 섞여 있어
+ * (복제권) 정리되기 전까지 포트폴리오에서 트래픽을 보내지 않는다.
+ * 정리되면 page.tsx 에서 이 href 들을 다시 링크로 쓰면 된다.
+ */
 const notes = (dir: string) => `${REPO}/tree/main/${encodeURIComponent(dir)}`
 
 export type Book = {
@@ -35,9 +39,7 @@ export const study = {
   noteCount: (n: number): L => ({ ko: `정리 노트 ${n}건`, en: `${n} notes` }),
   labels: {
     open: { ko: '정리한 내용 보기', en: 'See the notes' },
-    repoLink: { ko: '스터디 레포', en: 'Study repo' },
     back: { ko: '포트폴리오로', en: 'Back to the portfolio' },
-    all: { ko: '전부 보기', en: 'See all' },
   },
   books: [
     {
