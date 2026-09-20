@@ -1,8 +1,26 @@
+import {
+  chartMemo,
+  draftHook,
+  lintHook,
+  paymentState,
+  rowSubscription,
+  scoring,
+  scrollAttribute,
+  seoPrerender,
+} from './snippets'
+
 export const locales = ['ko', 'en'] as const
 export type Locale = (typeof locales)[number]
 export const hasLocale = (v: string): v is Locale => (locales as readonly string[]).includes(v)
 
 type L = Record<Locale, string>
+
+/** 접어 둔 코드 한 토막. label 은 파일 경로가 아니라 "이 코드가 보여주는 것" */
+export type Snippet = {
+  label: L
+  lang: 'ts' | 'tsx' | 'json' | 'bash'
+  code: string
+}
 
 export type Project = {
   slug: string
@@ -15,7 +33,7 @@ export type Project = {
   aspect: number
   /** 공개된 서비스만 */
   url?: string
-  points: { title: L; body: L }[]
+  points: { title: L; body: L; snippet?: Snippet }[]
   stack: string[]
 }
 
@@ -95,6 +113,7 @@ export const projects: Project[] = [
           ko: '입원 차트는 셀 하나를 고치면 표 전체가 다시 그려졌습니다. 행·셀 컴포넌트 4개에 React.memo를 적용하고, 콜백은 ref로 안정화하고, 셀 데이터를 행 단위로 나눠 넘겨 수정된 행만 다시 그려지게 했습니다.',
           en: 'Editing one cell re-rendered the whole chart. React.memo on four row and cell components, ref-stabilised callbacks and per-row data slices mean only the edited row re-renders now.',
         },
+        snippet: chartMemo,
       },
       {
         title: { ko: '흩어진 결제 폼 상태 통합', en: 'Unified scattered payment-form state' },
@@ -102,6 +121,7 @@ export const projects: Project[] = [
           ko: 'Jotai atom 7개에 흩어져 있던 결제 폼 입력값을 react-hook-form 하나로 모으고 결제 요청은 훅으로 분리했습니다. 결제 진입·시작·실패·완료 이벤트를 추적하고, 결제 상태 전이와 검증 유틸에 단위 테스트 34개를 붙였습니다.',
           en: 'Payment inputs spread across 7 Jotai atoms now live in one react-hook-form, with the payment request in its own hook. Entry, start, failure and completion events are tracked, and 34 unit tests cover state transitions and validation utils.',
         },
+        snippet: paymentState,
       },
       {
         title: { ko: '4개 언어와 운영 모니터링', en: '4 languages, production monitoring' },
@@ -143,6 +163,7 @@ export const projects: Project[] = [
           ko: '스크롤마다 헤더 상태를 갱신하던 구조를 useRef와 data attribute 방식으로 바꿔 불필요한 리렌더를 없앴습니다.',
           en: 'Replaced per-scroll header state with useRef and data attributes, removing needless re-renders.',
         },
+        snippet: scrollAttribute,
       },
       {
         title: { ko: 'SPA의 SEO 보완', en: 'Filling the SEO gap of an SPA' },
@@ -150,6 +171,7 @@ export const projects: Project[] = [
           ko: '빌드 뒤 라우트별 메타데이터(title, OG, canonical, JSON-LD)와 요약 콘텐츠를 담은 정적 HTML을 생성해 함께 배포합니다. 배포는 S3/CloudFront에서 Azure Blob으로 옮겼습니다.',
           en: 'After each build, per-route static HTML with metadata (title, OG, canonical, JSON-LD) and a content summary ships alongside the SPA. Hosting moved from S3/CloudFront to Azure Blob.',
         },
+        snippet: seoPrerender,
       },
     ],
     stack: ['React 19', 'TanStack Router/Query', 'Tailwind CSS v4', 'Vite', 'sharp', 'GitHub Actions', 'Azure Blob'],
@@ -203,6 +225,7 @@ export const projects: Project[] = [
           ko: '지출품의서 표는 행이 많아 한 칸만 고쳐도 표 전체가 다시 그려졌습니다. 각 행이 jotai selectAtom으로 자기 데이터만 구독하게 바꾸고, 1번 행을 고칠 때 2번 행이 다시 그려지지 않는지 테스트 7개로 확인합니다.',
           en: 'Editing one cell of the expense table re-rendered the whole table. Each row now subscribes to its own slice via jotai selectAtom, and 7 tests assert that editing row 1 never re-renders row 2.',
         },
+        snippet: rowSubscription,
       },
       {
         title: { ko: '쓰던 결재 문서 자동 저장', en: 'Drafts that survive a closed tab' },
@@ -210,6 +233,7 @@ export const projects: Project[] = [
           ko: '문서 종류와 문서 번호를 키로 IndexedDB에 임시저장하고 다시 들어오면 복구합니다. 제출에 성공하면 임시본을 지웁니다. 문서 6종이 같은 저장·복구 훅을 씁니다.',
           en: 'Drafts are saved to IndexedDB keyed by document type and number, restored on return, and cleared on successful submit. All 6 document types share one save/restore hook.',
         },
+        snippet: draftHook,
       },
       {
         title: { ko: '영수증과 첨부 파일', en: 'Receipts and attachments' },
@@ -244,6 +268,7 @@ export const projects: Project[] = [
           ko: '후보를 마감 임박순으로 자른 뒤 채점하다 보니, 망원동 10km 후보 236건 중 30건만 점수를 받고 있었습니다. 후보 창을 넓혀 점수순으로 자르게 바꾸고, 사전 필터 때문에 상수가 된 관심사 가중치는 나머지 축에 비례 배분했습니다.',
           en: 'Candidates were cut by deadline before scoring, so only 30 of 236 within 10km of Mangwon were ever scored. The window now cuts by score, and the interest weight that the pre-filter had flattened is redistributed across the other axes.',
         },
+        snippet: scoring,
       },
       {
         title: { ko: '공공데이터 5종 매일 적재', en: 'Five public data sources, every morning' },
@@ -295,7 +320,7 @@ export type AiCase = {
   approach: L
   tradeoff: L
   rules?: { code: string; ko: string; en: string }[]
-  code?: string
+  snippet?: Snippet
 }
 
 export const aiWorkflow = {
@@ -327,17 +352,7 @@ export const aiWorkflow = {
         { code: 'R6', ko: 'fixed inset-0 커스텀 모달 금지. shared/ui의 Dialog 사용', en: 'No custom fixed inset-0 modals; use the shared Dialog' },
         { code: 'R7', ko: '다른 슬라이스 깊은 경로 import 금지. Public API 경유', en: 'No deep imports into another slice; use its public API' },
       ],
-      code: `// .claude/settings.json
-"PostToolUse": [{
-  "matcher": "Edit|Write|MultiEdit",
-  "hooks": [{ "type": "command", "command": "node .claude/hooks/fsd-lint.mjs" }]
-}]
-
-// 위반 시 에이전트가 받는 메시지 예시 (exit 2)
-FSD 룰 위반 1건 (CLAUDE.md 참고):
-  [R7] src/features/payment/ui/PayForm.tsx:4
-  깊은 경로 import 금지: @/entities/pet/model/types
-  슬라이스 Public API 경유: from "@/entities/pet"`,
+      snippet: lintHook,
     },
     {
       id: 'agents',
@@ -459,6 +474,8 @@ export const ui = {
     ai: { ko: 'AI', en: 'AI' },
     contact: { ko: '연락', en: 'Contact' },
   },
+  study: { ko: '공부', en: 'Study' },
+  showCode: { ko: '코드 보기', en: 'See the code' },
   peek: { ko: '작업 보기', en: 'See the work' },
   workTitle: { ko: '만든 서비스', en: 'What I’ve built' },
   workNote: {

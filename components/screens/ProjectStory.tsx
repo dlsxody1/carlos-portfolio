@@ -2,8 +2,20 @@ import Image from 'next/image'
 import type { Locale, Project } from '@/content/resume'
 import { ArrowUpRight } from '@phosphor-icons/react/dist/ssr'
 import { StoryScene } from './StoryScene'
+import { CodeBlock } from '@/components/code/CodeBlock'
+import { Drop } from '@/components/code/Drop'
 
-export function ProjectStory({ projects, lang, visitLabel }: { projects: Project[]; lang: Locale; visitLabel: string }) {
+export function ProjectStory({
+  projects,
+  lang,
+  visitLabel,
+  codeLabel,
+}: {
+  projects: Project[]
+  lang: Locale
+  visitLabel: string
+  codeLabel: string
+}) {
   // 3D 씬에는 텍스트 없이 캡쳐 정보만 넘긴다 (RSC 직렬화 최소화)
   const shots = projects.map(({ slug, shot, aspect }) => ({ slug, shot, aspect }))
 
@@ -32,6 +44,14 @@ export function ProjectStory({ projects, lang, visitLabel }: { projects: Project
                 <div key={pt.title.en} className="border-t border-line pt-4">
                   <dt className="font-semibold">{pt.title[lang]}</dt>
                   <dd className="mt-1.5 leading-relaxed text-ink-soft">{pt.body[lang]}</dd>
+                  {/* 훑는 사람의 흐름을 끊지 않게 기본은 접어 둔다 */}
+                  {pt.snippet ? (
+                    <dd className="mt-3.5">
+                      <Drop label={codeLabel}>
+                        <CodeBlock snippet={pt.snippet} locale={lang} />
+                      </Drop>
+                    </dd>
+                  ) : null}
                 </div>
               ))}
             </dl>

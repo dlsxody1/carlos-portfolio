@@ -18,6 +18,7 @@ export default async function Page({ params }: PageProps<'/[lang]'>) {
         lang={lang}
         name={profile.name[lang]}
         labels={{ about: ui.nav.about[lang], work: ui.nav.work[lang], ai: ui.nav.ai[lang], contact: ui.nav.contact[lang] }}
+        studyLabel={ui.study[lang]}
         menuLabel={ui.menu[lang]}
       />
       <main>

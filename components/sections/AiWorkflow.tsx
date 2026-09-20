@@ -1,5 +1,6 @@
 import type { Locale } from '@/content/resume'
 import { aiWorkflow } from '@/content/resume'
+import { CodeBlock } from '@/components/code/CodeBlock'
 
 export function AiWorkflow({ lang }: { lang: Locale }) {
   const { labels } = aiWorkflow
@@ -40,11 +41,7 @@ export function AiWorkflow({ lang }: { lang: Locale }) {
                   </div>
                 )}
 
-                {'code' in c && c.code && (
-                  <pre className="overflow-x-auto rounded-xl bg-ink p-5 text-[0.82rem] leading-relaxed text-paper/90">
-                    <code>{c.code}</code>
-                  </pre>
-                )}
+                {'snippet' in c && c.snippet && <CodeBlock snippet={c.snippet} locale={lang} />}
               </div>
             </article>
           ))}

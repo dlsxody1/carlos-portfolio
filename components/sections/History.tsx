@@ -1,5 +1,8 @@
+import Link from 'next/link'
+import { ArrowRight } from '@phosphor-icons/react/dist/ssr'
 import type { Locale } from '@/content/resume'
 import { timeline, ui } from '@/content/resume'
+import { study } from '@/content/study'
 
 export function History({ lang }: { lang: Locale }) {
   return (
@@ -17,6 +20,18 @@ export function History({ lang }: { lang: Locale }) {
           </li>
         ))}
       </ol>
+
+      {/* 별도 라우트로 빠져 있어 여기 문을 하나 둔다 */}
+      <Link
+        href={`/${lang}/study`}
+        className="group border-t border-line pt-6 lg:col-start-2 lg:-mt-2"
+      >
+        <p className="flex items-center gap-1.5 font-semibold transition-colors group-hover:text-accent">
+          {study.title[lang]}
+          <ArrowRight size={15} weight="bold" aria-hidden className="transition-transform group-hover:translate-x-1" />
+        </p>
+        <p className="mt-1 text-sm text-ink-soft">{study.meta[lang]}</p>
+      </Link>
     </section>
   )
 }
