@@ -71,7 +71,7 @@ export function Nav({
       <nav
         data-scrolled={shrunk || undefined}
         data-open={open || undefined}
-        className="glass relative w-full max-w-[40rem] overflow-hidden rounded-[1.75rem] transition-[max-width,background-color] duration-500 ease-(--ease-out-expo) data-scrolled:max-w-[34rem]"
+        className="glass relative w-full max-w-[40rem] overflow-hidden rounded-[1.75rem] transition-[max-width] duration-500 ease-(--ease-out-expo) data-scrolled:max-w-[34rem]"
       >
         <div className="flex h-14 items-center gap-2 pr-2 pl-5">
           <a href={`${home}#top`} className="mr-auto font-display text-[0.95rem] font-semibold tracking-tight whitespace-nowrap">

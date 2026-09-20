@@ -112,7 +112,9 @@ h4 {
   }
 }
 
-/* 모바일 메뉴가 펼쳐지면 반투명을 아예 끈다 — 메뉴 글자와 본문이 겹치는 게 제일 안 읽힌다.
+/* 모바일 메뉴가 펼쳐지면 반투명을 아예 끈다.
+   Nav 의 transition 목록에서 background-color 를 뺀 이유가 여기다 — color-mix() 에서
+   var(--color-paper) 로 넘어가는 보간이 실패해 옛 값(0.88)에 멈춰 버린다 — 메뉴 글자와 본문이 겹치는 게 제일 안 읽힌다.
    레이어 밖 규칙이라 .glass 유틸리티보다 뒤에 적용된다 */
 nav[data-open] {
   background: var(--color-paper);
